@@ -2,6 +2,7 @@ body {
     background-color: rgb(176, 233, 255);
 }
 
+
 .principal {
     background-color: aliceblue;
     width: 60%;
@@ -13,9 +14,10 @@ body {
 }
 
 .contenedor {
-    display: grid;
-    grid-template-columns: 1fr 1fr 2fr;
+    display: flex;
+    align-items: center;
     width: 100%;
+    position: relative;
     max-width: 100%;
     background: linear-gradient(to right, rgb(83, 109, 122), rgb(55, 72, 80));
     padding: 20px;
@@ -24,7 +26,42 @@ body {
     gap: 10px; 
     box-sizing: border-box;
     color: white;
+    
 }
+
+.vertical-line {
+    width: 5px;
+    height: 80%; /* Ajusta según necesites */
+    background: rgb(255, 255, 255);
+    position: relative;
+    gap: 20;
+}
+
+.caja1 {
+    padding: 10px;
+}
+
+.about-me {
+    flex-grow: 1; /* Para que ocupe más espacio si es necesario */
+}
+
+
+
+
+.caja1 {
+    padding: 10px;
+}
+
+.about-me {
+    flex-grow: 1; /* Para que ocupe más espacio si es necesario */
+}
+
+
+
+
+
+
+
 
 .inter_experience {
     grid-template-columns: 1fr 1fr 2fr;
@@ -38,9 +75,17 @@ i {
     font-size: 24px;
 }
 
+id{
+    margin-left: 20px;
+}
+
 ie {
     font-size: 24px;
     color: rgb(255, 255, 255);
+}
+
+.jobdescripcion{
+    width: 95%;
 }
 
 img {
@@ -56,17 +101,22 @@ img {
 .experience {
     display: grid;
     grid-template-columns: 1fr 3fr;
-    padding-left: 30px;
+    padding-left: 50px;
 }
 
 .education {
     display: grid;
     grid-template-columns: 1fr 3fr;
-    padding-left: 30px;
+    padding-left: 50px;
 }
 
 .descriptionaears{
-    padding-left: 50px;
+    padding-left: 55px;
+}
+
+.skillbarra{
+    display: grid;
+
 }
 
 .contact {
@@ -97,11 +147,25 @@ hr{
     border-left:    1px solid hsla(200, 10%, 50%,100);
 }
 
+.vertical-line {
+    width: 1px;
+    background: white;
+    margin: 0 20px;
+  }
+
+p{
+    margin-top: 0;
+}
+
 .profesionalskills {
     display: grid;
     grid-template-columns: 1fr 5fr;
 }
 
+.titlejob{
+    margin-top: 0px;
+    width: 50%;
+}
 .title {
     padding: 0px;
     background: linear-gradient(to right, rgb(185, 185, 185), rgba(55, 72, 80, 0.082));
@@ -111,6 +175,12 @@ hr{
 h3 {
     margin: 1px;
     font-size: 15px;
+}
+
+h4{
+    margin-top: 0;
+    margin-bottom: 2px;
+    font-size: 17px;
 }
 
 .caja1 {
@@ -124,79 +194,79 @@ h3 {
 
 .progress1 {
     height: 15px;
-    width: 100%; 
+
     background: linear-gradient(to right, #eeaa43 60%, #5f6a8d 60%);
 }
 
 .progress2 {
     height: 15px;
-    width: 100%; 
+
     background: linear-gradient(to right, #eeaa43 30%, #5f6a8d 60%);
 }
 
 .progress3 {
     height: 15px;
-    width: 70%; 
+
     background: linear-gradient(to right, #eeaa43 50%, #5f6a8d 60%);
 }
 
 .progress4 {
     height: 15px;
-    width: 70%; 
+
     background: linear-gradient(to right, #eeaa43 90%, #5f6a8d 60%);
 }
 
 .progress5 {
     height: 15px;
-    width: 70%; 
+
     background: linear-gradient(to right, #eeaa43 100%, #5f6a8d 60%);
 }
 
 .progress6 {
     height: 15px;
-    width: 70%; 
+
     background: linear-gradient(to right, #1a1936 30%, #5f6a8d 60%);
 }
 
 .progress7 {
     height: 15px;
-    width: 70%; 
+
     background: linear-gradient(to right, #1a1936 30%, #5f6a8d 60%);
 }
 
 .progress8 {
     height: 15px;
-    width: 70%; 
+ 
     background: linear-gradient(to right, #1a1936 30%, #5f6a8d 60%);
 }
 
 .progress9 {
     height: 15px;
-    width: 70%; 
+
     background: linear-gradient(to right, #1a1936 30%, #5f6a8d 60%);
 }
 
 .progress10 {
     height: 15px;
-    width: 70%; 
+
     background: linear-gradient(to right, #eeaa43 100%, #5f6a8d 60%);
 }
 
 .progress11 {
     height: 15px;
-    width: 70%; 
+
     background: linear-gradient(to right, #eeaa43 90%, #5f6a8d 60%);
 }
 
 .progress12 {
     height: 15px;
-    width: 70%; 
+ 
     background: linear-gradient(to right, #eeaa43 100%, #5f6a8d 60%);
 }
 
 .progress13 {
     height: 15px;
-    width: 70%; 
+
     background: linear-gradient(to right, #eeaa43 100%, #5f6a8d 60%);
 }
 
