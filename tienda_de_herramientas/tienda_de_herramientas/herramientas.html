@@ -1,216 +1,313 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ferreplus - Tienda</title>
     <link rel="stylesheet" href="herramienta.css" />
-    <title>Herramientas</title>
 </head>
 
 <body>
-    <div class="principal">
-        <div class="headen">
-            <div class="div-logo">
-                <img src="https://ferreplus.com.ar/wp-content/uploads/2024/06/logo-ferreplus-ferreteria.png"
-                    class="fixed-image" alt="Imagen fija">
-            </div>
-            <div class="menuheaden">
-                <h1>HOME</h1>
-                <h1>FEATURES</h1>
-                <h1>ABOUT US</h1>
-                <h1>OUR SERVICES</h1>
-                <h1>PROJECTS</h1>
-                <h1>BLOG</h1>
+    <header class="headen">
+        <div class="div-logo">
+            <img src="https://ferreplus.com.ar/wp-content/uploads/2024/06/logo-ferreplus-ferreteria.png"
+                alt="Logo Ferreplus">
+        </div>
+
+        <div class="menuheaden">
+            <h1>HOME</h1>
+            <h1>FEATURES</h1>
+            <h1>ABOUT US</h1>
+            <h1>OUR SERVICES</h1>
+            <h1>PROJECTS</h1>
+            <h1>BLOG</h1>
+            <h1>STORE</h1>
+            <h1>CONTACT</h1>
+            <h1>≡</h1>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="breadcrumb">
+            <div class="title-breadcrum">
                 <h1>STORE</h1>
-                <h1>CONTACT</h1>
+
+                <div class="breadcrumb-plain">
+                    <span class="breadcrumb-text">You are here:</span>
+                    <span href="#" class="breadcrumb-link">
+                        <span class="icon-home"></span> Home
+                    </span>
+                    <span class="breadcrumb-separator">›</span>
+                    <span class="breadcrumb-current">
+                        <span class="icon-product"></span> Products
+                    </span>
+                </div>
             </div>
         </div>
-        <div class="storetitle">
-            <div class="informationtitle">
-                <h3>STORE</h3>
-            </div>
-        </div>
+        <div class="store-content">
+            <aside class="sidebar">
 
-        <div class="store">
-            <div class="buscarproducto">
-                <div class="search-products">
+
+                <div class="searchbar">
 
 
 
-                    <div class="buscador">
-                        <form action="#" method="get">
-                          <input type="text" name="q" placeholder="Buscar...">
-                        </form>
-                      </div>
-                    
+                    <form action="/search" method="get" class="search-form">
+                        <div class="search-container">
+                            <input type="search" name="q" placeholder="Search Products..." class="search-input"
+                                aria-label="Buscar productos">
+                            <button type="submit" class="search-button">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
 
 
                 </div>
-                <div class="filterprice">
-                    <div class="titleprice">
-                    <h1>FILTER BY PRICE</h1>
-                    </div>
-                    <div class="wrapper">
-                        <div class="container">
-                            <div class="slider-track"></div>
-                            <input type="range" min="0" max="100" value="30" id="slider-1" oninput="slideOne()">
+
+
+
+
+                <div class="filter-section">
+                    <h3>FILTER BY PRICE
+                        <hr class="hr-price-filter">
+                    </h3>
+                    <input type="range" class="price-filter" min="0" max="100" value="30">
+                    <div class="select-price-num-boton">
+                        <div class="price-selecction">
+                            <p>Price: £12 - £35</p>
+                        </div>
+                        <div class="price-botton">
+                            <button class="apply-button-filter">Price</button>
                         </div>
                     </div>
-                    <div class="filtrar-price">
-                        <div class="precio-filtrado"><h3>price $12-$25</h3></div>
-                        
-                        <div class="boton-filtrado">
-                            <button class="btn-amarillo">Filtrar</button>
-                        </div>
-                    </div>
                 </div>
-                <div class="categories">
-                    <h1>CATEGORIES</h1>
-                    <h1>FEATURE PRODUCTS</h1>
-                    <h1>filtro precio</h1>
-                    <h1>filtro precio</h1>
-                    <h1>filtro precio</h1>
-                </div>
-                <div class="features"></div>
-            </div>
 
-            <div class="herramientaview">
-                <div class="buscarherramienta">
-                    <div class="cuentas-pestañas">
-                        <h2>showing 1 - 9 of 10 results</h2>
+
+
+
+
+
+
+
+                <div class="filter-section categories-filter">
+                    <h3>CATEGORIES
+                        <hr class="hr-price-filter">
+                    </h3>
+                    <ul class="categories-list">
+                        <li class="category-item">Clothing <span class="category-count">(7)</span></li>
+                        <li class="category-item">Hoodies <span class="category-count">(3)</span></li>
+                        <li class="category-item">Posters <span class="category-count">(3)</span></li>
+                        <li class="category-item">T-shirts <span class="category-count">(4)</span></li>
+                    </ul>
+                </div>
+
+
+
+
+                <div class="featured-products-section">
+                    <h3 class="section-title">FEATURED PRODUCTS
+                        <hr class="hr-price-filter">
+                    </h3>
+
+                    <div class="featured-product">
+                        <p class="product-name">Flying Ninja</p>
+                        <p class="product-price">
+                            <span class="current-price">£12.00</span>
+                            <span class="original-price">£12.00</span>
+                        </p>
                     </div>
-                    <div class="defulsorting">
-                        <div class="dropdown">
-                            <button>default sorting</button>
-                            <div class="dropdown-content">
-                              <a href="#">Inicio</a>
-                              <a href="#">Servicios</a>
-                              <a href="#">Contacto</a>
+
+                    <div class="featured-product">
+                        <p class="product-name">Patient Ninja</p>
+                        <p class="product-price">£35.00</p>
+                    </div>
+
+                    <div class="featured-product">
+                        <p class="product-name">Premium Quality</p>
+                        <p class="product-price">£20.00</p>
+                    </div>
+                </div>
+
+
+
+
+
+
+            </aside>
+
+            <section class="products">
+                <div class="product-grid">
+                    <div class="showmorepage">
+                        <div class="showsheel">
+                            <h3>Showing 1-9 of 10 results</h3>
+                        </div>
+                        <div class="deaful">
+                            <div class="dropdown">
+                                <button>default sorting</button>
+                                <div class="dropdown-content">
+                                    <a href="#">Inicio</a>
+                                    <a href="#">Servicios</a>
+                                    <a href="#">Contacto</a>
+                                </div>
                             </div>
-                          </div>
-                        
+                        </div>
+                    </div>
+                    <!-- Producto 1 -->
+                    <div class="showproducts">
+                        <div class="product-card1">
+                            <img src="https://belltec.com.co/6906-large_default/taladro-de-rotacion-industrial-38-pulg-dewalt-dwd014-b3.jpg"
+                                alt="Flying Ninja" class="product-image" width="100px">
+                            <div class="product-info">
+                                <h3 class="product-title">Flying Ninja</h3>
+                                <hr class="hr-product-card">
+                                <p class="product-price">£11.00 <span class="old-price">£12.00</span></p>
+                                <div class="rating">*****</div>
+                            </div>
+                        </div>
+
+                        <!-- Producto 2 -->
+                        <div class="product-card">
+                            <img src="https://belltec.com.co/6906-large_default/taladro-de-rotacion-industrial-38-pulg-dewalt-dwd014-b3.jpg"
+                                alt="Happy Ninja" class="product-image">
+                            <div class="product-info">
+                                <h3 class="product-title">Happy Ninja</h3>
+                                <hr class="hr-product-card">
+                                <p class="product-price">£18.00</p>
+                                <div class="rating">*****</div>
+                            </div>
+                        </div>
+
+                        <!-- Producto 3 -->
+                        <div class="product-card">
+                            <img src="https://belltec.com.co/6906-large_default/taladro-de-rotacion-industrial-38-pulg-dewalt-dwd014-b3.jpg"
+                                alt="Happy Ninja" class="product-image">
+                            <div class="product-info">
+                                <h3 class="product-title">Happy Ninja</h3>
+                                <hr class="hr-product-card">
+                                <p class="product-price">£35.00</p>
+                                <div class="rating">*****</div>
+                            </div>
+                        </div>
+
+                        <!-- Producto 4 -->
+                        <div class="product-card">
+                            <img src="https://belltec.com.co/6906-large_default/taladro-de-rotacion-industrial-38-pulg-dewalt-dwd014-b3.jpg"
+                                alt="Ninja Silhouette" class="product-image">
+                            <div class="product-info">
+                                <h3 class="product-title">Ninja Silhouette</h3>
+                                <hr class="hr-product-card">
+                                <p class="product-price">£20.00</p>
+                                <div class="rating">*****</div>
+                            </div>
+                        </div>
+
+                        <!-- Producto 5 -->
+                        <div class="product-card">
+                            <img src="https://belltec.com.co/6906-large_default/taladro-de-rotacion-industrial-38-pulg-dewalt-dwd014-b3.jpg"
+                                alt="Ninja Silhouette" class="product-image">
+                            <div class="product-info">
+                                <h3 class="product-title">Ninja Silhouette</h3>
+                                <hr class="hr-product-card">
+                                <p class="product-price">£35.00</p>
+                                <div class="rating">*****</div>
+                            </div>
+                        </div>
+
+                        <!-- Producto 6 -->
+                        <div class="product-card">
+                            <img src="https://belltec.com.co/6906-large_default/taladro-de-rotacion-industrial-38-pulg-dewalt-dwd014-b3.jpg"
+                                alt="Patient Ninja" class="product-image">
+                            <div class="product-info">
+                                <h3 class="product-title">Patient Ninja</h3>
+                                <hr class="hr-product-card">
+                                <p class="product-price">£35.00</p>
+                                <div class="rating">*****</div>
+                            </div>
+                        </div>
+
+                        <!-- Producto 7 -->
+                        <div class="product-card">
+                            <img src="https://belltec.com.co/6906-large_default/taladro-de-rotacion-industrial-38-pulg-dewalt-dwd014-b3.jpg"
+                                alt="Premium Quality" class="product-image">
+                            <div class="product-info">
+                                <h3 class="product-title">Premium Quality</h3>
+                                <hr class="hr-product-card">
+                                <p class="product-price">£20.00</p>
+                                <div class="rating">*****</div>
+                            </div>
+                        </div>
+
+                        <!-- Producto 8 -->
+                        <div class="product-card">
+                            <img src="https://belltec.com.co/6906-large_default/taladro-de-rotacion-industrial-38-pulg-dewalt-dwd014-b3.jpg"
+                                alt="Premium Quality" class="product-image">
+                            <div class="product-info">
+                                <h3 class="product-title">Premium Quality</h3>
+                                <hr class="hr-product-card">
+                                <p class="product-price">£15.00 <span class="old-price">£12.00</span></p>
+                                <div class="rating">*****</div>
+                            </div>
+                        </div>
+
+                        <!-- Producto 9 -->
+                        <div class="product-card">
+                            <img src="https://belltec.com.co/6906-large_default/taladro-de-rotacion-industrial-38-pulg-dewalt-dwd014-b3.jpg"
+                                alt="Ship Your Idea" class="product-image">
+                            <div class="product-info">
+                                <h3 class="product-title">Ship Your Idea</h3>
+                                <hr class="hr-product-card">
+                                <p class="product-price">£20.00</p>
+                                <div class="rating">*****</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="fotoherramienta">
-                    <div class="articulo">
-                        <img src="https://belltec.com.co/6906-large_default/taladro-de-rotacion-industrial-38-pulg-dewalt-dwd014-b3.jpg"
-                            class="fixed-image" alt="Imagen fija">
-                        <h1>Flying ninja</h1>
-                        <hr>
-                        <div class="price-products">
-                            <h4>$15.00</h4>
-                            <h5>12.00</h5>
-                        </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>FREE DE AT</h3>
+                    <div class="contact-info">
+                        <p>Headquarters:</p>
+                        <p>66 Nicholson Street Buffalo New York US 14214</p>
+                        <p>QD1-123-456-7890</p>
+                        <p>support@hrefbanks.com</p>
+                        <p>QD1-123-456-7890</p>
+                        <p>manager@hrefbanks.com</p>
+                        <p>Monday - Saturday: 8:00 Am - 19:00 Pm</p>
+                        <p>Sunday: Closed</p>
                     </div>
-                    <div class="articulo">
-                        <img src="https://belltec.com.co/6906-large_default/taladro-de-rotacion-industrial-38-pulg-dewalt-dwd014-b3.jpg"
-                            class="fixed-image" alt="Imagen fija">
-                        <h1>Flying ninja</h1>
-                        <hr>
-                        <div class="price-products">
-                            <h4>$15.00</h4>
-                            <h5>12.00</h5>
-                        </div>
-                    </div>
-                    <div class="articulo">
-                        <img src="https://belltec.com.co/6906-large_default/taladro-de-rotacion-industrial-38-pulg-dewalt-dwd014-b3.jpg"
-                            class="fixed-image" alt="Imagen fija">
-                        <h1>Flying ninja</h1>
-                        <hr>
-                        <div class="price-products">
-                            <h4>$15.00</h4>
-                            <h5>12.00</h5>
-                        </div>
-                    </div>
-                    <div class="articulo">
-                        <img src="https://belltec.com.co/6906-large_default/taladro-de-rotacion-industrial-38-pulg-dewalt-dwd014-b3.jpg"
-                            class="fixed-image" alt="Imagen fija">
-                        <h1>Flying ninja</h1>
-                        <hr>
-                        <div class="price-products">
-                            <h4>$15.00</h4>
-                            <h5>12.00</h5>
-                        </div>
-                    </div>
-                    <div class="articulo">
-                        <img src="https://belltec.com.co/6906-large_default/taladro-de-rotacion-industrial-38-pulg-dewalt-dwd014-b3.jpg"
-                            class="fixed-image" alt="Imagen fija">
-                        <h1>Flying ninja</h1>
-                        <hr>
-                        <div class="price-products">
-                            <h4>$15.00</h4>
-                            <h5>12.00</h5>
-                        </div>
-                    </div>
-                    <div class="articulo">
-                        <img src="https://belltec.com.co/6906-large_default/taladro-de-rotacion-industrial-38-pulg-dewalt-dwd014-b3.jpg"
-                            class="fixed-image" alt="Imagen fija">
-                        <h1>Flying ninja</h1>
-                        <hr>
-                        <div class="price-products">
-                            <h4>$15.00</h4>
-                            <h5>12.00</h5>
-                        </div>
-                    </div>
-                    <div class="articulo">
-                        <img src="https://belltec.com.co/6906-large_default/taladro-de-rotacion-industrial-38-pulg-dewalt-dwd014-b3.jpg"
-                            class="fixed-image" alt="Imagen fija">
-                        <h1>Flying ninja</h1>
-                        <hr>
-                        <div class="price-products">
-                            <h4>$15.00</h4>
-                            <h5>12.00</h5>
-                        </div>
-                    </div>
-                    <div class="articulo">
-                        <img src="https://belltec.com.co/6906-large_default/taladro-de-rotacion-industrial-38-pulg-dewalt-dwd014-b3.jpg"
-                            class="fixed-image" alt="Imagen fija">
-                        <h1>Flying ninja</h1>
-                        <hr>
-                        <div class="price-products">
-                            <h4>$15.00</h4>
-                            <h5>12.00</h5>
-                        </div>
-                    </div>
-                    <div class="articulo">
-                        <img src="https://belltec.com.co/6906-large_default/taladro-de-rotacion-industrial-38-pulg-dewalt-dwd014-b3.jpg"
-                            class="fixed-image" alt="Imagen fija">
-                        <h1>Flying ninja</h1>
-                        <hr>
-                        <div class="price-products">
-                            <h4>$15.00</h4>
-                            <h5>12.00</h5>
-                        </div>
-                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>SOCIAL MEDIA</h3>
+                    <p>Redes sociales aquí</p>
+                </div>
+
+                <div class="footer-section">
+                    <h3>SENT MESSAGE</h3>
+                    <form>
+                        <p>Name:</p>
+                        <input type="text">
+                        <p>Mail:</p>
+                        <input type="email">
+                        <p>Message:</p>
+                        <textarea></textarea>
+                        <button type="submit">Sent Message</button>
+                    </form>
                 </div>
             </div>
         </div>
-        <div class="moreabutus">
-            <div class="text">
-                <div class="imagenabajo">
-                    <img src="https://ferreplus.com.ar/wp-content/uploads/2024/06/logo-ferreplus-ferreteria.png"
-                        class="sinbordeimagen" alt="Imagen fija">
-                </div>
-                <p>Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum
-                    ha sido el texto de relleno estándar de las industrias desde el año 1500</p>
-                <div class="numerosdecontacto">
-                    <div class="numero1"><h2>55 55 555</h2></div>
-                    <div class="numero1"><h2>55 55 555</h2></div>
-                </div>
-            </div>
-            <div class="followus">
-                <h2>social media</h2>
-                <h2>social media</h2>
-                <h2>social media</h2>
-                <h2>social media</h2>
-            </div>
-            <div class="sentmesage">
-                <h2>social media</h2>
-                <h2>social media</h2>
-                <h2>social media</h2>
-            </div>
-        </div>
-    </div>
+    </footer>
 </body>
+
 </html>
