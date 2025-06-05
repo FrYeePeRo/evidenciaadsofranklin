@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Registro de Datos</title>
+</head>
+
+<body>
+    <div class="container mt-5">
+
+        <header class="text-center my-4">
+            <h1>Registro de Datos</h1>
+            <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Agregar Registro
+            </button>
+        </header>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Registro de datos</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" class="form-control mb-2" id="nombre" placeholder="Escribe tu nombre">
+                        <input type="text" class="form-control mb-2" id="apellido" placeholder="Escribe tu apellido">
+                        <input type="text" class="form-control mb-2" id="documento" placeholder="Escribe tu documento">
+                        <input type="email" class="form-control mb-2" id="email"
+                            placeholder="Escribe tu correo electrónico">
+                            <div id="alerta" class="mt-2"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary" onclick="guardar()">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla -->
+        <div class="row g-3 mt-4">
+            <h2>Registros</h2>
+            <table class="table table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Documento</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody id="registros"></tbody>
+            </table>
+        </div>
+
+    </div>
+
+<script>
+    let dataArray = [];
+    let op = 0;
+    let pos = null;
+
+    function mostrarAlerta(mensaje) {
+        const alerta = document.getElementById("alerta");
+        alerta.innerHTML = `
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                ${mensaje}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        `;
+    }
+
+    function guardar() {
+        const nombre = document.getElementById("nombre").value
+        const apellido = document.getElementById("apellido").value
+        const documento = document.getElementById("documento").value
+        const email = document.getElementById("email").value
+        const alerta = document.getElementById("alerta");
+
+        if (nombre === "") {
+            mostrarAlerta("Por favor, escribe tu nombre.");
+            return;
+        } else if (apellido === "") {
+            mostrarAlerta("Por favor, escribe tu apellido.");
+            return;
+        } else if (documento === "") {
+            mostrarAlerta("Por favor, digita tu documento.");
+            return;
+        } else if (email === "") {
+            mostrarAlerta("Por favor, digita tu correo electrónico.");
+            return;
+        } else if (!email.includes("@")){
+            mostrarAlerta("El correo debe contener '@'.");
+            return;
+        }
+
+        alerta.innerHTML = ""; // Limpiar alertas
+
+        const data = { nombre, apellido, documento, email };
+
+        if (op === 0) {
+            dataArray.unshift(data);
+        } else {
+            dataArray[pos] = data;
+            op = 0;
+            pos = null;
+        }
+
+        pintar();
+        limpiar();
+
+        const modal = bootstrap.Modal.getInstance(document.getElementById('exampleModal'));
+        modal.hide();
+    }
+
+    function pintar() {
+        const registros = document.getElementById("registros");
+        registros.textContent = "";
+
+        dataArray.forEach((item, i) => {
+            let tr = document.createElement("tr");
+
+            let tdNombre = document.createElement("td");
+            tdNombre.textContent = item.nombre;
+
+            let tdApellido = document.createElement("td");
+            tdApellido.textContent = item.apellido;
+
+            let tdDocumento = document.createElement("td");
+            tdDocumento.textContent = item.documento;
+
+            let tdEmail = document.createElement("td");
+            tdEmail.textContent = item.email;
+
+            let tdOpciones = document.createElement("td");
+
+            let btnEditar = document.createElement("button");
+            btnEditar.textContent = "📝";
+            btnEditar.classList.add("btn", "btn-sm", "btn-warning", "me-1");
+            btnEditar.addEventListener("click", () => {
+                document.getElementById("nombre").value = item.nombre;
+                document.getElementById("apellido").value = item.apellido;
+                document.getElementById("documento").value = item.documento;
+                document.getElementById("email").value = item.email;
+                op = 1;
+                pos = i;
+
+                const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                modal.show();
+            });
+
+            let btnEliminar = document.createElement("button");
+            btnEliminar.textContent = "❌";
+            btnEliminar.classList.add("btn", "btn-sm", "btn-danger");
+            btnEliminar.addEventListener("click", () => {
+                eliminar(i);
+            });
+
+            tdOpciones.appendChild(btnEditar);
+            tdOpciones.appendChild(btnEliminar);
+
+            tr.appendChild(tdNombre);
+            tr.appendChild(tdApellido);
+            tr.appendChild(tdDocumento);
+            tr.appendChild(tdEmail);
+            tr.appendChild(tdOpciones);
+
+            registros.appendChild(tr);
+        });
+    }
+
+    function eliminar(index) {
+        if (confirm("¿Seguro que deseas eliminar este registro?")) {
+            dataArray.splice(index, 1);
+            pintar();
+        }
+    }
+
+    function limpiar() {
+        document.getElementById("nombre").value = "";
+        document.getElementById("apellido").value = "";
+        document.getElementById("documento").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("alerta").innerHTML = "";
+        op = 0;
+        pos = null;
+    }
+</script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
