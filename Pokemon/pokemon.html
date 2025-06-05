@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="pokemon_style.css">
+    <link rel="icon" href="pokeball-transparent-png-2.png" type="image/png">
+    <title>Pokecard</title>
+</head>
+
+<body>
+    <img src="logo_pokemon.png" alt="Logo Pokémon" width="300" id="logo_pokemon_div">
+    <h1 id="titulo"></h1>
+    <div id="content">
+        <div id="card">
+            <img src="" id="pok" alt="Pokémon sprite">
+        </div>
+        <div id="caracteristicas">
+            <h1>Características</h1>
+            <p>HP: <span id="hp"></span></p>
+            <p>Ataque: <span id="attack"></span></p>
+            <p>Defensa: <span id="defense"></span></p>
+            <p>Ataque Especial: <span id="special-attack"></span></p>
+            <p>Defensa Especial: <span id="special-defense"></span></p>
+            <p>Velocidad: <span id="speed"></span></p>
+            <p id="pokemon-type"></p>
+        </div>
+        <div class="tipo_pokemon">
+            <h1>Tipo de pokemon:</h1>
+            <div id="types-container"></div>
+        </div>
+        <div class="debilidades_pokemon">
+            <h1>Debilidades:</h1>
+            <div id="weaknesses-container"></div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        const typeColors = {
+            normal: '#A8A878',
+            fire: '#F08030',
+            water: '#6890F0',
+            electric: '#F8D030',
+            grass: '#78C850',
+            ice: '#98D8D8',
+            fighting: '#C03028',
+            poison: '#A040A0',
+            ground: '#E0C068',
+            flying: '#A890F0',
+            psychic: '#F85888',
+            bug: '#A8B820',
+            rock: '#B8A038',
+            ghost: '#705898',
+            dragon: '#7038F8',
+            dark: '#705848',
+            steel: '#B8B8D0',
+            fairy: '#EE99AC'
+        };
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            try {
+                const randomPokemon = Math.floor(Math.random() * 898) + 1;
+                let res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${randomPokemon}`);
+
+
+                console.log(res);
+                
+
+                // Mostrar datos básicos
+                const pokemonName = res.data.name.charAt(0).toUpperCase() + res.data.name.slice(1);
+                document.getElementById("titulo").textContent = pokemonName;
+                document.getElementById("pok").src = res.data.sprites.other['official-artwork'].front_default ||
+                    res.data.sprites.front_default;
+
+                // Mostrar estadísticas del Pokémon
+
+                
+
+                res.data.stats.forEach(stat => {
+                    const statName = stat.stat.name;
+                    if (statName === 'hp') document.getElementById('hp').textContent = stat.base_stat;
+                    if (statName === 'attack') document.getElementById('attack').textContent = stat.base_stat;
+                    if (statName === 'defense') document.getElementById('defense').textContent = stat.base_stat;
+                    if (statName === 'special-attack') document.getElementById('special-attack').textContent = stat.base_stat;
+                    if (statName === 'special-defense') document.getElementById('special-defense').textContent = stat.base_stat;
+                    if (statName === 'speed') document.getElementById('speed').textContent = stat.base_stat;
+                });
+
+                // Mostrar tipos
+                const types = res.data.types;
+                const typesContainer = document.getElementById('types-container');
+                typesContainer.innerHTML = types.map(type => 
+                    `<span style="background-color: ${typeColors[type.type.name]}; 
+                      padding: 5px 10px; 
+                      border-radius: 15px; 
+                      color: white;
+                      margin: 0 5px;">
+                      ${type.type.name.toUpperCase()}
+                    </span>`
+                ).join('');
+
+                // Cambiar color del fondo según el tipo primario
+                const primaryType = types[0].type.name;
+                document.getElementById("content").style.backgroundColor = typeColors[primaryType] || '#FFFFFF';
+
+                // Obtener debilidades
+                const typeResponses = await Promise.all(
+                    types.map(type => axios.get(type.type.url))
+                );
+                
+                // Calcular debilidades (tipos que hacen doble daño)
+                const weaknesses = new Set();// new set es un nuevo conjunto don se alamacen las debilidades
+                typeResponses.forEach(typeRes => {
+                    typeRes.data.damage_relations.double_damage_from.forEach(weakness => {
+                        weaknesses.add(weakness.name);
+                    });
+                });
+
+                // Mostrar debilidades
+                const weaknessesContainer = document.getElementById('weaknesses-container');
+                weaknessesContainer.innerHTML = Array.from(weaknesses).map(weakness => 
+                    `<span class="weakness-badge" style="background-color: ${typeColors[weakness] || '#777'}">
+                        ${weakness.toUpperCase()}
+                    </span>`
+                ).join('');
+
+            } catch (error) {
+                console.error("Error loading Pokémon:", error);
+            }
+        });
+    </script>
+</body>
+</html>
