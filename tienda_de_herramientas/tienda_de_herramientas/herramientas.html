@@ -4,308 +4,431 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ferreplus - Tienda</title>
-    <link rel="stylesheet" href="herramienta.css" />
+    <title>Ferreplus - Ferretería Industrial</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="herramienta.css" rel="stylesheet">
+
 </head>
 
 <body>
-    <header class="headen">
-        <div class="div-logo">
-            <img src="https://ferreplus.com.ar/wp-content/uploads/2024/06/logo-ferreplus-ferreteria.png"
-                alt="Logo Ferreplus">
-        </div>
+    <!-- Header -->
+    <header class="header-principal">
+        <div class="contenedor-header">
+            <div class="logo">
+                <img src="https://ferreplus.com.ar/wp-content/uploads/2024/06/logo-ferreplus-ferreteria.png"
+                    alt="Ferreplus">
+            </div>
 
-        <div class="menuheaden">
-            <h1>HOME</h1>
-            <h1>FEATURES</h1>
-            <h1>ABOUT US</h1>
-            <h1>OUR SERVICES</h1>
-            <h1>PROJECTS</h1>
-            <h1>BLOG</h1>
-            <h1>STORE</h1>
-            <h1>CONTACT</h1>
-            <h1>≡</h1>
+            <nav>
+                <ul class="menu-principal">
+                    <li><a href="#">HOME</a></li>
+                    <li><a href="#">FEATURES</a></li>
+                    <li><a href="#">ABOUT US</a></li>
+                    <li><a href="#">OUR SERVICES</a></li>
+                    <li><a href="#">PROJECTS</a></li>
+                    <li><a href="#">BLOG</a></li>
+                    <li><a href="#">STORE</a></li>
+                    <li><a href="#">CONTACT</a></li>
+                    <li><a href="#">≡</a></li>
+                </ul>
+            </nav>
+
+
+
+
+
+
+            <div class="iconos-header">
+                <a href="#"><i class="fas fa-search"></i></a>
+                <a href="#"><i class="fas fa-user"></i></a>
+                <a href="#"><i class="fas fa-shopping-cart"></i></a>
+                <button class="boton-menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
         </div>
     </header>
 
-    <main class="container">
-        <div class="breadcrumb">
-            <div class="title-breadcrum">
-                <h1>STORE</h1>
-
-                <div class="breadcrumb-plain">
-                    <span class="breadcrumb-text">You are here:</span>
-                    <span href="#" class="breadcrumb-link">
-                        <span class="icon-home"></span> Home
-                    </span>
-                    <span class="breadcrumb-separator">›</span>
-                    <span class="breadcrumb-current">
-                        <span class="icon-product"></span> Products
-                    </span>
-                </div>
+    <!-- Banner Principal -->
+    <section class="banner">
+        <div class="contenido-banner">
+            <h1>Store</h1>
+            <div class="breadcrumb-plain">
+                <span class="breadcrumb-text">You are here: </span>
+                <span href="#" class="breadcrumb-link">
+                    <span class="texto-home">Home</span>
+                </span>
+                <span class="breadcrumb-separator">/</span>
+                <span class="breadcrumb-current">
+                    <span class="icon-product"></span> Products
+                </span>
             </div>
         </div>
-        <div class="store-content">
-            <aside class="sidebar">
+    </section>
 
+    <!-- Contenido Principal -->
+    <div class="contenedor-principal">
+        <!-- Sidebar de Filtros (oculto en móvil) -->
+        <aside class="sidebar-filtros">
 
-                <div class="searchbar">
-
-
-
-                    <form action="/search" method="get" class="search-form">
-                        <div class="search-container">
-                            <input type="search" name="q" placeholder="Search Products..." class="search-input"
-                                aria-label="Buscar productos">
-                            <button type="submit" class="search-button">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                    <circle cx="11" cy="11" r="8"></circle>
-                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                </svg>
-                            </button>
-                        </div>
-                    </form>
-
-
-                </div>
+            <!-- 🔍 Formulario de búsqueda de productos -->
+            <div class="searchbar">
 
 
 
 
-                <div class="filter-section">
-                    <h3>FILTER BY PRICE
-                        <hr class="hr-price-filter">
-                    </h3>
-                    <input type="range" class="price-filter" min="0" max="100" value="30">
-                    <div class="select-price-num-boton">
-                        <div class="price-selecction">
-                            <p>Price: £12 - £35</p>
-                        </div>
-                        <div class="price-botton">
-                            <button class="apply-button-filter">Price</button>
-                        </div>
+                <form action="/search" method="get" class="search-form">
+                    <div class="search-container">
+                        <input type="search" name="q" placeholder="Buscar productos..." class="search-input"
+                            aria-label="Buscar productos">
+                        <button type="submit" class="search-button">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                        </button>
                     </div>
+                </form>
+
+
+            </div>
+
+            <!-- 💰 Filtro por precio -->
+            <div class="filtro-seccion">
+                <h3>Filtrar por Precio</h3>
+                <div class="linea-divisoria"></div>
+                <input type="range" class="rango-precio" min="0" max="1000" value="500">
+                <div class="valores-precio">
+                    <span>$0</span>
+                    <span>$1000</span>
+                </div>
+                <button class="boton-filtro">Filtrar</button>
+            </div>
+
+            <!-- 📂 Categorías -->
+            <div class="filtro-seccion">
+                <h3>Categorías</h3>
+                <div class="linea-divisoria"></div>
+                <ul class="lista-categorias">
+                    <li><a href="#">Clothing <span class="contador">45</span></a></li>
+                    <li><a href="#">Hodies <span class="contador">32</span></a></li>
+                    <li><a href="#">Posters <span class="contador">28</span></a></li>
+                    <li><a href="#">T-shirts <span class="contador">56</span></a></li>
+                   </ul>
+            </div>
+
+            <!-- 🌟 Productos destacados -->
+            <div class="filtro-seccion">
+                <h3>Productos Destacados</h3>
+                <div class="linea-divisoria"></div>
+                <div class="producto-destacado">
+
+                    <p>Taladro Percutor 750W</p>
+                    <p class="precio">$24.990 <span class="precio-anterior">$29.990</span></p>
+                </div>
+                <div class="producto-destacado">
+                    <p>Juego de Llaves Combinadas</p>
+                    <p class="precio">$12.500</p>
+                </div>
+                <div class="producto-destacado">
+                    <p>Destornillador Eléctrico</p>
+                    <p class="precio">$32.000</p>
+                </div>
+            </div>
+
+        </aside>
+
+
+        <!-- Contenido de Productos -->
+        <main class="contenido-productos">
+
+
+
+            <div class="filtros-mobile">
+
+                <!-- PRIMERO: Filtrar por Precio -->
+                <div class="filtro-seccion">
+                    <h3>Filtrar por Precio</h3>
+                    <input type="range" class="rango-precio" min="0" max="1000" value="500">
+                    <div class="valores-precio">
+                        <span>$0</span>
+                        <span>$1000</span>
+                    </div>
+                    <button class="boton-filtro">Filtrar</button>
                 </div>
 
-
-
-
-
-
-
-
-                <div class="filter-section categories-filter">
-                    <h3>CATEGORIES
-                        <hr class="hr-price-filter">
-                    </h3>
-                    <ul class="categories-list">
-                        <li class="category-item">Clothing <span class="category-count">(7)</span></li>
-                        <li class="category-item">Hoodies <span class="category-count">(3)</span></li>
-                        <li class="category-item">Posters <span class="category-count">(3)</span></li>
-                        <li class="category-item">T-shirts <span class="category-count">(4)</span></li>
+                <!-- SEGUNDO: Categorías -->
+                <div class="filtro-seccion">
+                    <h3>Categorías</h3>
+                    <ul class="lista-categorias">
+                        <li><a href="#">Herramientas Manuales <span class="contador">45</span></a></li>
+                        <li><a href="#">Herramientas Eléctricas <span class="contador">32</span></a></li>
+                        <li><a href="#">Materiales de Construcción <span class="contador">28</span></a></li>
+                        <li><a href="#">Fijaciones y Tornillería <span class="contador">56</span></a></li>
+                        <li><a href="#">Equipo de Seguridad <span class="contador">19</span></a></li>
+                        <li><a href="#">Pinturas y Accesorios <span class="contador">23</span></a></li>
                     </ul>
                 </div>
 
+            </div>
 
 
-
-                <div class="featured-products-section">
-                    <h3 class="section-title">FEATURED PRODUCTS
-                        <hr class="hr-price-filter">
-                    </h3>
-
-                    <div class="featured-product">
-                        <p class="product-name">Flying Ninja</p>
-                        <p class="product-price">
-                            <span class="current-price">£12.00</span>
-                            <span class="original-price">£12.00</span>
-                        </p>
+            <div class="herramientas-filtros">
+                <p>Mostrando 1-12 de 56 productos</p>
+                <div class="dropdown">
+                    <button class="boton-dropdown">Ordenar por: Predeterminado</button>
+                    <div class="contenido-dropdown">
+                        <a href="#">Menor precio</a>
+                        <a href="#">Mayor precio</a>
+                        <a href="#">Más vendidos</a>
+                        <a href="#">Mejor valorados</a>
                     </div>
-
-                    <div class="featured-product">
-                        <p class="product-name">Patient Ninja</p>
-                        <p class="product-price">£35.00</p>
-                    </div>
-
-                    <div class="featured-product">
-                        <p class="product-name">Premium Quality</p>
-                        <p class="product-price">£20.00</p>
-                    </div>
-                </div>
-
-
-
-
-
-
-            </aside>
-
-            <section class="products">
-                <div class="product-grid">
-                    <div class="showmorepage">
-                        <div class="showsheel">
-                            <h3>Showing 1-9 of 10 results</h3>
-                        </div>
-                        <div class="deaful">
-                            <div class="dropdown">
-                                <button>default sorting</button>
-                                <div class="dropdown-content">
-                                    <a href="#">Inicio</a>
-                                    <a href="#">Servicios</a>
-                                    <a href="#">Contacto</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Producto 1 -->
-                    <div class="showproducts">
-                        <div class="product-card1">
-                            <img src="https://belltec.com.co/6906-large_default/taladro-de-rotacion-industrial-38-pulg-dewalt-dwd014-b3.jpg"
-                                alt="Flying Ninja" class="product-image" width="100px">
-                            <div class="product-info">
-                                <h3 class="product-title">Flying Ninja</h3>
-                                <hr class="hr-product-card">
-                                <p class="product-price">£11.00 <span class="old-price">£12.00</span></p>
-                                <div class="rating">*****</div>
-                            </div>
-                        </div>
-
-                        <!-- Producto 2 -->
-                        <div class="product-card">
-                            <img src="https://belltec.com.co/6906-large_default/taladro-de-rotacion-industrial-38-pulg-dewalt-dwd014-b3.jpg"
-                                alt="Happy Ninja" class="product-image">
-                            <div class="product-info">
-                                <h3 class="product-title">Happy Ninja</h3>
-                                <hr class="hr-product-card">
-                                <p class="product-price">£18.00</p>
-                                <div class="rating">*****</div>
-                            </div>
-                        </div>
-
-                        <!-- Producto 3 -->
-                        <div class="product-card">
-                            <img src="https://belltec.com.co/6906-large_default/taladro-de-rotacion-industrial-38-pulg-dewalt-dwd014-b3.jpg"
-                                alt="Happy Ninja" class="product-image">
-                            <div class="product-info">
-                                <h3 class="product-title">Happy Ninja</h3>
-                                <hr class="hr-product-card">
-                                <p class="product-price">£35.00</p>
-                                <div class="rating">*****</div>
-                            </div>
-                        </div>
-
-                        <!-- Producto 4 -->
-                        <div class="product-card">
-                            <img src="https://belltec.com.co/6906-large_default/taladro-de-rotacion-industrial-38-pulg-dewalt-dwd014-b3.jpg"
-                                alt="Ninja Silhouette" class="product-image">
-                            <div class="product-info">
-                                <h3 class="product-title">Ninja Silhouette</h3>
-                                <hr class="hr-product-card">
-                                <p class="product-price">£20.00</p>
-                                <div class="rating">*****</div>
-                            </div>
-                        </div>
-
-                        <!-- Producto 5 -->
-                        <div class="product-card">
-                            <img src="https://belltec.com.co/6906-large_default/taladro-de-rotacion-industrial-38-pulg-dewalt-dwd014-b3.jpg"
-                                alt="Ninja Silhouette" class="product-image">
-                            <div class="product-info">
-                                <h3 class="product-title">Ninja Silhouette</h3>
-                                <hr class="hr-product-card">
-                                <p class="product-price">£35.00</p>
-                                <div class="rating">*****</div>
-                            </div>
-                        </div>
-
-                        <!-- Producto 6 -->
-                        <div class="product-card">
-                            <img src="https://belltec.com.co/6906-large_default/taladro-de-rotacion-industrial-38-pulg-dewalt-dwd014-b3.jpg"
-                                alt="Patient Ninja" class="product-image">
-                            <div class="product-info">
-                                <h3 class="product-title">Patient Ninja</h3>
-                                <hr class="hr-product-card">
-                                <p class="product-price">£35.00</p>
-                                <div class="rating">*****</div>
-                            </div>
-                        </div>
-
-                        <!-- Producto 7 -->
-                        <div class="product-card">
-                            <img src="https://belltec.com.co/6906-large_default/taladro-de-rotacion-industrial-38-pulg-dewalt-dwd014-b3.jpg"
-                                alt="Premium Quality" class="product-image">
-                            <div class="product-info">
-                                <h3 class="product-title">Premium Quality</h3>
-                                <hr class="hr-product-card">
-                                <p class="product-price">£20.00</p>
-                                <div class="rating">*****</div>
-                            </div>
-                        </div>
-
-                        <!-- Producto 8 -->
-                        <div class="product-card">
-                            <img src="https://belltec.com.co/6906-large_default/taladro-de-rotacion-industrial-38-pulg-dewalt-dwd014-b3.jpg"
-                                alt="Premium Quality" class="product-image">
-                            <div class="product-info">
-                                <h3 class="product-title">Premium Quality</h3>
-                                <hr class="hr-product-card">
-                                <p class="product-price">£15.00 <span class="old-price">£12.00</span></p>
-                                <div class="rating">*****</div>
-                            </div>
-                        </div>
-
-                        <!-- Producto 9 -->
-                        <div class="product-card">
-                            <img src="https://belltec.com.co/6906-large_default/taladro-de-rotacion-industrial-38-pulg-dewalt-dwd014-b3.jpg"
-                                alt="Ship Your Idea" class="product-image">
-                            <div class="product-info">
-                                <h3 class="product-title">Ship Your Idea</h3>
-                                <hr class="hr-product-card">
-                                <p class="product-price">£20.00</p>
-                                <div class="rating">*****</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </main>
-
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>FREE DE AT</h3>
-                    <div class="contact-info">
-                        <p>Headquarters:</p>
-                        <p>66 Nicholson Street Buffalo New York US 14214</p>
-                        <p>QD1-123-456-7890</p>
-                        <p>support@hrefbanks.com</p>
-                        <p>QD1-123-456-7890</p>
-                        <p>manager@hrefbanks.com</p>
-                        <p>Monday - Saturday: 8:00 Am - 19:00 Pm</p>
-                        <p>Sunday: Closed</p>
-                    </div>
-                </div>
-
-                <div class="footer-section">
-                    <h3>SOCIAL MEDIA</h3>
-                    <p>Redes sociales aquí</p>
-                </div>
-
-                <div class="footer-section">
-                    <h3>SENT MESSAGE</h3>
-                    <form>
-                        <p>Name:</p>
-                        <input type="text">
-                        <p>Mail:</p>
-                        <input type="email">
-                        <p>Message:</p>
-                        <textarea></textarea>
-                        <button type="submit">Sent Message</button>
-                    </form>
                 </div>
             </div>
+
+            <div class="grid-productos">
+                <!-- Producto 1 -->
+                <div class="producto1">
+                    <img src="img/sale.png" alt="Descuento" class="sticker-descuento">
+
+                    <div class="imagen-producto">
+                        <img src="img/taladro.png" alt="Taladro Percutor">
+                    </div>
+
+                    <div class="info-producto">
+                        <h3 class="nombre-producto">Taladro Percutor 750W</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <p class="precio">
+                            $24.990
+                            <span class="precio-anterior">$29.990</span>
+                            <span class="starss">★★★★★</span>
+                        </p>
+                    </div>
+                </div>
+
+
+                <!-- Producto 2 -->
+                <div class="producto">
+                    <div class="imagen-producto">
+                        <img src="img/1.jpg" alt="Amoladora Angular" height="150px">
+                    </div>
+                    <div class="info-producto">
+                        <h3 class="nombre-producto">Amoladora Angular 115mm 850W</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <p class="precio">$18.500<span class="starss">★★★★★</span></p>
+                    </div>
+                </div>
+
+                <!-- Producto 3 -->
+                <div class="producto">
+                    <div class="imagen-producto">
+                        <img src="img/2.jpg" alt="Juego de Llaves">
+                    </div>
+                    <div class="info-producto">
+                        <h3 class="nombre-producto">Juego de Llaves Combinadas 10 Piezas</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="precio">$12.500 <span class="precio-anterior">$15.000</span><span
+                                class="starss">★★★★★</span></p>
+                    </div>
+                </div>
+
+                <!-- Producto 4 -->
+                <div class="producto">
+                    <div class="imagen-producto">
+                        <img src="img/3.jpg" alt="Sierra Circular">
+                    </div>
+                    <div class="info-producto">
+                        <h3 class="nombre-producto">Sierra Circular 1400W</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <p class="precio">$32.990<span class="starss">★★★★★</span></p>
+                    </div>
+                </div>
+
+                <!-- Producto 5 -->
+                <div class="producto">
+                    <div class="imagen-producto">
+                        <img src="img/4.jpg" alt="Martillo Demoledor">
+                    </div>
+                    <div class="info-producto">
+                        <h3 class="nombre-producto">Martillo Demoledor 1500W</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <p class="precio">$45.500<span class="starss">★★★★★</span></p>
+                    </div>
+                </div>
+
+                <!-- Producto 6 -->
+                <div class="producto">
+                    <div class="imagen-producto">
+                        <img src="img/5.jpg" alt="Lijadora Orbital">
+                    </div>
+                    <div class="info-producto">
+                        <h3 class="nombre-producto">Lijadora Orbital 250W</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <p class="precio">$15.990 <span class="precio-anterior">$19.990</span><span
+                                class="starss">★★★★★</span></p>
+                    </div>
+
+                </div>
+                <div class="producto">
+                    <div class="imagen-producto">
+                        <img src="img/6.jpg" alt="Lijadora Orbital">
+                    </div>
+                    <div class="info-producto">
+                        <h3 class="nombre-producto">Lijadora Orbital 250W</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <p class="precio">$15.990 <span class="precio-anterior">$19.990</span> <span
+                                class="starss">★★★★★</span></p>
+                    </div>
+                </div>
+                <div class="producto">
+                    <div class="imagen-producto">
+                        <img src="img/7.jpg" alt="Lijadora Orbital">
+                    </div>
+                    <div class="info-producto">
+                        <h3 class="nombre-producto">Lijadora Orbital 250W</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <p class="precio">$15.990 <span class="precio-anterior">$19.990</span><span
+                                class="starss">★★★★★</span></p>
+                    </div>
+                </div>
+                <div class="producto">
+                    <div class="imagen-producto">
+                        <img src="img/8.jpg" alt="Lijadora Orbital">
+                    </div>
+                    <div class="info-producto">
+                        <h3 class="nombre-producto">Lijadora Orbital 250W</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <p class="precio">$15.990 <span class="precio-anterior">$19.990</span></p>
+                    </div>
+                </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="contenedor-footer">
+            <div class="columna-footer">
+                <img src="https://ferreplus.com.ar/wp-content/uploads/2024/06/logo-ferreplus-ferreteria.png"
+                    width="200PX">
+
+                <p>Somos una ferretería industrial con más de 20 años de experiencia en el rubro, ofreciendo productos
+                    de calidad para profesionales y particulares.</p>
+                <div class="info-contacto">
+                    <div class="info_contacto_1">
+                        <p>366119</p>
+                    </div>
+                    <p><i class="info_contacto_2"></i>181920</p>
+                </div>
+            </div>
+
+            <div class="columna-footer">
+                <h3>Find us at</h3>
+
+                <p>Headcuarets:</p>
+<p>66 Nichoson Street Buffalo New York UD 14214</p>
+<p class="numero_de_contacto"><i class="bi bi-telephone-fill" style="margin-right: 10px;"></i> 001-123-456-7890</p>
+<p><i class="bi bi-envelope-fill" style="margin-right: 10px;"></i>Support@qinethemes.com</p>
+<p class="numero_de_contacto"><i class="bi bi-telephone-fill" style="margin-right: 10px;"></i> 001-123-456-7890</p>
+<p><i class="bi bi-envelope-fill" style="margin-right: 10px;"></i>Support@qinethemes.com</p>
+<p class="numero_de_contacto">Monday - Saturday 8:00 AM - 6:00 PM</p>
+<p>Sunday - Closed</p>
+
+            </div>
+
+            <div class="columna-footer">
+                <h3>Sent message</h3>
+                <form action="/search" method="get" class="search-form">
+                    <div class="search-container">
+                        <input type="search" name="q" placeholder="Name" class="enviar_mensajes"
+                            aria-label="Buscar productos">
+                        <button type="submit" class="search-button">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+                <form action="/search" method="get" class="search-form">
+                    <div class="search-container">
+                        <input type="search" name="q" placeholder="Mail" class="enviar_mensajes"
+                            aria-label="Buscar productos">
+                        <button type="submit" class="search-button">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+                <form action="/search" method="get" class="search-form">
+                    <div class="search-container">
+                        <input type="search" name="q" placeholder="Message" class="enviar_mensajes"
+                            aria-label="Buscar productos" style="height: 100px;">
+                        <button type="submit" class="search-button">
+
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+<button class="boton-filtro" style="width: 150px;">Sent message</button>
+            </div>
+        </div>
+
+        <div class="copyright">
+            <p>&copy; 2023 Ferreplus. Todos los derechos reservados.</p>
         </div>
     </footer>
 </body>
