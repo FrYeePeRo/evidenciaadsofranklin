@@ -1,158 +1,403 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="/citas_mascotas.css" rel="stylesheet" />
+  <link href="citas_mascotas.css" rel="stylesheet" />
   <title>Agendación de Citas - Mascotas</title>
 </head>
+
 <body>
 
-  <!-- Modal de Formulario -->
-  <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="formModalLabel">Agenda Nueva Cita</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+  <div class="headen">
+    <h1>Agendamiento de citas</h1>
+  </div>
+
+  <div class="contenedor">
+    <!-- Botón para abrir modal -->
+    <div class="d-flex justify-content-center">
+      <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#agendar_cita">Agendar
+        nueva cita
+      </button>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="agendar_cita" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form id="formCita">
+            <div class="modal-body">
+              <input type="text" id="nombreDueño" class="form-control mb-2" placeholder="Nombre del propietario"
+                required>
+              <input type="text" id="nombreMascota" class="form-control mb-2" placeholder="Nombre de la mascota"
+                required>
+              <input type="text" id="telefono" class="form-control mb-2" placeholder="Celular del propietario" required
+                pattern="^[0-9]{7,15}$" title="Solo números. Mínimo 7, máximo 15 dígitos.">
+
+
+
+              <!-- Menú desplegable de tipo de mascota -->
+              <div class="dropdown mb-2">
+                <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="dropdownTipoMascota"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  Tipo de mascota
+                </button>
+                <ul class="dropdown-menu w-100" aria-labelledby="dropdownTipoMascota" id="menuTipoMascota">
+                  <li><a class="dropdown-item" href="#">Perro</a></li>
+                  <li><a class="dropdown-item" href="#">Gato</a></li>
+                  <li><a class="dropdown-item" href="#">Ave</a></li>
+                  <li><a class="dropdown-item" href="#">Conejo</a></li>
+                  <li><a class="dropdown-item" href="#">Hámster</a></li>
+                  <li><a class="dropdown-item" href="#">Tortuga</a></li>
+                  <li><a class="dropdown-item" href="#">Pez</a></li>
+                  <li><a class="dropdown-item" href="#">Hurón</a></li>
+                  <li><a class="dropdown-item" href="#">Iguana</a></li>
+                  <li><a class="dropdown-item" href="#">Caballo</a></li>
+                </ul>
+              </div>
+              <input type="hidden" id="tipoMascotaSeleccionada">
+
+              <label for="fechaCita" class="form-label">Selecciona la fecha de la cita:</label>
+              <input type="date" class="form-control mb-2" id="fechaCita" name="fechaCita" required>
+
+              <label for="horaCita" class="form-label">Selecciona la hora de la cita:</label>
+              <select class="form-select mb-2" id="horaCita" name="horaCita" required>
+                <option value="">-- Selecciona una hora --</option>
+                <!-- Mañana -->
+                <option value="08:00">08:00</option>
+                <option value="08:30">08:30</option>
+                <option value="09:00">09:00</option>
+                <option value="09:30">09:30</option>
+                <option value="10:00">10:00</option>
+                <option value="10:30">10:30</option>
+                <option value="11:00">11:00</option>
+                <option value="11:30">11:30</option>
+                <!-- Tarde -->
+                <option value="14:00">14:00</option>
+                <option value="14:30">14:30</option>
+                <option value="15:00">15:00</option>
+                <option value="15:30">15:30</option>
+                <option value="16:00">16:00</option>
+                <option value="16:30">16:30</option>
+                <option value="17:00">17:00</option>
+                <option value="17:30">17:30</option>
+                <option value="18:00">18:00</option>
+              </select>
+              <div class="invalid-feedback">Favor seleccionar una hora válida.</div>
+
+
+              <textarea id="sintomas" class="form-control" rows="3" placeholder="Describe los síntomas..."
+                required></textarea>
+            </div>
+
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-primary" id="guardarCita">Guardar Cita</button>
+            </div>
+          </form>
         </div>
-        <div class="modal-body">
-          <input type="text" class="form-control mb-2" id="nombre" placeholder="Tu nombre">
-          <input type="text" class="form-control mb-2" id="apellido" placeholder="Nombre de tu mascota">
-          <input type="text" class="form-control mb-2" id="documento" placeholder="Documento">
-          <input type="email" class="form-control mb-2" id="email" placeholder="Correo electrónico">
-          <div id="alerta" class="mt-2"></div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          <button type="button" class="btn btn-primary" onclick="guardar()">Guardar</button>
+      </div>
+    </div>
+
+
+    <div class="citas-container">
+      <h2>Citas Agendadas</h2>
+      <div id="listaCitas" class="cartas-wrapper">
+      </div>
+    </div>
+
+
+
+    <!-- Modal para editar cita -->
+    <div class="modal fade" id="editar_cita" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form id="formEditarCita">
+            <div class="modal-body">
+              <input type="hidden" id="editarID">
+              <input type="text" id="editarNombreDueño" class="form-control mb-2" placeholder="Nombre del propietario"
+                required>
+              <input type="text" id="editarNombreMascota" class="form-control mb-2" placeholder="Nombre de la mascota"
+                required>
+              <input type="text" id="editarTelefono" class="form-control mb-2" placeholder="Celular del propietario"
+                required pattern="^[0-9]{7,15}$" title="Solo números. Mínimo 7, máximo 15 dígitos.">
+              <input type="text" id="editarTipoMascota" class="form-control mb-2" placeholder="Tipo de mascota"
+                required>
+              <label for="editarFecha" class="form-label">Fecha:</label>
+              <input type="date" id="editarFecha" class="form-control mb-2" required>
+              <label for="editarHora" class="form-label">Hora:</label>
+              <select id="editarHora" class="form-select mb-2" required>
+                <option value="">-- Selecciona una hora --</option>
+                <option value="08:00">08:00</option>
+                <option value="08:30">08:30</option>
+                <option value="09:00">09:00</option>
+                <option value="09:30">09:30</option>
+                <option value="10:00">10:00</option>
+                <option value="10:30">10:30</option>
+                <option value="11:00">11:00</option>
+                <option value="11:30">11:30</option>
+                <option value="14:00">14:00</option>
+                <option value="14:30">14:30</option>
+                <option value="15:00">15:00</option>
+                <option value="15:30">15:30</option>
+                <option value="16:00">16:00</option>
+                <option value="16:30">16:30</option>
+                <option value="17:00">17:00</option>
+                <option value="17:30">17:30</option>
+                <option value="18:00">18:00</option>
+              </select>
+              <textarea id="editarSintomas" class="form-control mt-2" rows="3" placeholder="Describe los síntomas..."
+                required></textarea>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-success">Guardar Cambios</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
 
-
-  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#formModal">
-  Agendar otra cita
-</button>
-
-
-  <!-- Contenedor de citas -->
-  <div class="container mt-4">
-    <div id="contenedorCitas" class="row g-3"></div>
-  </div>
-
-  <script>
-    let dataArray = [];
-
-    function generarToken() {
-      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-      let token = '';
-      for (let i = 0; i < 8; i++) {
-        token += chars.charAt(Math.floor(Math.random() * chars.length));
-      }
-      return token;
-    }
-
-    function mostrarAlerta(mensaje) {
-      const alerta = document.getElementById("alerta");
-      alerta.innerHTML = `
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          ${mensaje}
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-        </div>
-      `;
-    }
-
-    function guardar() {
-      const nombre = document.getElementById("nombre").value;
-      const apellido = document.getElementById("apellido").value;
-      const documento = document.getElementById("documento").value;
-      const email = document.getElementById("email").value;
-      const alerta = document.getElementById("alerta");
-
-      if (nombre === "" || apellido === "" || documento === "" || email === "") {
-        mostrarAlerta("Todos los campos son obligatorios.");
-        return;
-      }
-
-      if (!email.includes("@")) {
-        mostrarAlerta("Correo inválido.");
-        return;
-      }
-
-      alerta.innerHTML = "";
-
-      const token = generarToken();
-      const idModal = `modalCita${dataArray.length}`;
-
-      const data = { nombre, apellido, documento, email, token, idModal };
-      dataArray.push(data);
-
-      renderCitas();
-      limpiarFormulario();
-
-      const modal = bootstrap.Modal.getInstance(document.getElementById('formModal'));
-      modal.hide();
-    }
-
-    function renderCitas() {
-      const contenedor = document.getElementById("contenedorCitas");
-      contenedor.innerHTML = "";
-
-      dataArray.forEach((item, index) => {
-        const col = document.createElement("div");
-        col.className = "col-12 col-md-6";
-
-        col.innerHTML = `
-          <button class="btn btn-outline-dark w-100" data-bs-toggle="modal" data-bs-target="#${item.idModal}">
-            Cita ${index + 1} - Token: ${item.token}
-          </button>
-
-          <div class="modal fade" id="${item.idModal}" tabindex="-1" aria-labelledby="${item.idModal}Label" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="${item.idModal}Label">Detalles de la Cita</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-body">
-                  <p><strong>Nombre:</strong> ${item.nombre}</p>
-                  <p><strong>Nombre Mascota:</strong> ${item.apellido}</p>
-                  <p><strong>Documento:</strong> ${item.documento}</p>
-                  <p><strong>Email:</strong> ${item.email}</p>
-                  <p><strong>Token:</strong> <span class="badge bg-success">${item.token}</span></p>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        `;
-
-        contenedor.appendChild(col);
-      });
-    }
-
-    function limpiarFormulario() {
-      document.getElementById("nombre").value = "";
-      document.getElementById("apellido").value = "";
-      document.getElementById("documento").value = "";
-      document.getElementById("email").value = "";
-      document.getElementById("alerta").innerHTML = "";
-    }
-  </script>
-
+  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
-    // Mostrar el modal automáticamente al cargar la página
+    const imagenesMascotas = {
+      "Perro": "/img/perro.jpg",
+      "Gato": "img/gato.jpg",
+      "Ave": "/img/ave.jpg",
+      "Conejo": "/img/conejo.jpg",
+      "Hámster": "/img/hamster.jpg",
+      "Tortuga": "/img/Tortuga.jpg",
+      "Pez": "/img/pez_dorado.jpg",
+      "Hurón": "/img/huron.jpg",
+      "Iguana": "/img/iguana.jpg",
+      "Caballo": "/img/caballo.jpg"
+    };
+
+    function generarIDUnico() {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      let id = '';
+      for (let i = 0; i < 8; i++) {
+        id += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return id;
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
-      const myModal = new bootstrap.Modal(document.getElementById('formModal'));
-      myModal.show();
+      const hoy = new Date();
+      const yyyy = hoy.getFullYear();
+      const mm = String(hoy.getMonth() + 1).padStart(2, '0');
+      const dd = String(hoy.getDate()).padStart(2, '0');
+      const fechaMinima = `${yyyy}-${mm}-${dd}`;
+      document.getElementById('fechaCita').setAttribute('min', fechaMinima);
+
+      const citasGuardadas = JSON.parse(localStorage.getItem('citas')) || [];
+      citasGuardadas.forEach(cita => renderCita(cita));
+    });
+
+    const dropdownItems = document.querySelectorAll('#menuTipoMascota .dropdown-item');
+    const dropdownButton = document.getElementById('dropdownTipoMascota');
+    const inputTipoMascota = document.getElementById('tipoMascotaSeleccionada');
+
+    dropdownItems.forEach(item => {
+      item.addEventListener('click', function (e) {
+        e.preventDefault();
+        dropdownButton.textContent = this.textContent.trim();
+        inputTipoMascota.value = this.textContent.trim();
+
+        dropdownButton.classList.remove('is-invalid');
+        const feedback = dropdownButton.nextElementSibling;
+        if (feedback) feedback.style.display = 'none';
+      });
+    });
+
+    // Solo permitir números en los campos de teléfono
+    document.addEventListener('input', function (e) {
+      if (e.target.id === 'telefono' || e.target.id === 'editarTelefono') {
+        e.target.value = e.target.value.replace(/\D/g, '');
+      }
+    });
+
+    document.getElementById('guardarCita').addEventListener('click', function () {
+      const dueñoInput = document.getElementById('nombreDueño');
+      const mascotaInput = document.getElementById('nombreMascota');
+      const telefonoInput = document.getElementById('telefono');
+      const fechaInput = document.getElementById('fechaCita');
+      const horaInput = document.getElementById('horaCita');
+      const sintomasInput = document.getElementById('sintomas');
+      const tipo_mascota = inputTipoMascota.value.trim();
+
+
+
+      function validarCampo(input) {
+        if (!input.value.trim()) {
+          input.classList.add('is-invalid');
+          return false;
+        } else {
+          input.classList.remove('is-invalid');
+          return true;
+        }
+      }
+
+      let valido = true;
+      valido = validarCampo(dueñoInput) && valido;
+      valido = validarCampo(mascotaInput) && valido;
+      valido = validarCampo(telefonoInput) && valido;
+      valido = validarCampo(fechaInput) && valido;
+      valido = validarCampo(horaInput) && valido;
+      valido = validarCampo(sintomasInput) && valido;
+
+      const feedback = dropdownButton.nextElementSibling;
+      if (!tipo_mascota) {
+        dropdownButton.classList.add('is-invalid');
+        if (feedback) feedback.style.display = 'block';
+        valido = false;
+      } else {
+        dropdownButton.classList.remove('is-invalid');
+        if (feedback) feedback.style.display = 'none';
+      }
+
+      if (!valido) return;
+
+      const hoy = new Date();
+      const fechaSeleccionada = new Date(fechaInput.value);
+      hoy.setHours(0, 0, 0, 0);
+      fechaSeleccionada.setHours(0, 0, 0, 0);
+
+      if (fechaSeleccionada < hoy) {
+        alert("La fecha debe ser igual o posterior a hoy.");
+        return;
+      }
+
+      const idCita = generarIDUnico();
+
+      const nuevaCita = {
+        id: idCita,
+        dueño: dueñoInput.value.trim(),
+        mascota: mascotaInput.value.trim(),
+        telefono: telefonoInput.value.trim(),
+        fecha: fechaInput.value,
+        hora: horaInput.value,
+        tipo_mascota,
+        sintomas: sintomasInput.value.trim()
+      };
+
+      let citas = JSON.parse(localStorage.getItem('citas')) || [];
+      citas.push(nuevaCita);
+      localStorage.setItem('citas', JSON.stringify(citas));
+
+      renderCita(nuevaCita);
+
+      document.getElementById('formCita').reset();
+      dropdownButton.textContent = 'Tipo de mascota';
+      inputTipoMascota.value = '';
+      dropdownButton.classList.remove('is-invalid');
+      if (feedback) feedback.style.display = 'none';
+
+      const modal = bootstrap.Modal.getInstance(document.getElementById('agendar_cita'));
+      modal.hide();
+    });
+
+    function renderCita(cita) {
+      const lista = document.getElementById('listaCitas');
+      const card = document.createElement('div');
+      card.className = 'col';
+      card.setAttribute('data-id', cita.id);
+
+      card.innerHTML = `
+      <div class="card" style="width: 18rem;">
+        <h5 class="card-title d-flex justify-content-center">${cita.mascota}</h5>
+        <img src="${imagenesMascotas[cita.tipo_mascota] || 'img/default.jpg'}" class="card-img-top" alt="${cita.tipo_mascota}">
+        <div class="card-body">
+          <p class="card-text"><strong>Propietario:</strong> ${cita.dueño}</p>
+          <p class="card-text"><strong>Teléfono:</strong> ${cita.telefono}</p>
+          <p class="card-text"><strong>Tipo:</strong> ${cita.tipo_mascota}</p>
+          <p class="card-text"><strong>Fecha:</strong> ${cita.fecha}</p>
+          <p class="card-text"><strong>Hora:</strong> ${cita.hora}</p>
+          <p class="card-text"><strong>Síntomas:</strong> ${cita.sintomas}</p>
+          <p class="card-text d-flex justify-content-center"><strong>ID Cita:</strong> ${cita.id}</p>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-warning btn-sm editar-cita">Editar</button>
+            <button class="btn btn-danger btn-sm eliminar-cita">Eliminar</button>
+          </div>
+        </div>
+      </div>
+    `;
+
+      card.querySelector('.eliminar-cita').addEventListener('click', function () {
+        if (confirm("¿Eliminar esta cita?")) {
+          card.remove();
+          let citas = JSON.parse(localStorage.getItem('citas')) || [];
+          citas = citas.filter(c => c.id !== cita.id);
+          localStorage.setItem('citas', JSON.stringify(citas));
+        }
+      });
+
+      lista.appendChild(card);
+    }
+
+    // Abrir modal de edición con datos precargados
+    document.addEventListener('click', function (e) {
+      if (e.target.classList.contains('editar-cita')) {
+        const card = e.target.closest('.col');
+        const id = card.getAttribute('data-id');
+        const citas = JSON.parse(localStorage.getItem('citas')) || [];
+        const cita = citas.find(c => c.id === id);
+        if (!cita) return;
+
+        document.getElementById('editarID').value = cita.id;
+        document.getElementById('editarNombreDueño').value = cita.dueño;
+        document.getElementById('editarNombreMascota').value = cita.mascota;
+        document.getElementById('editarTelefono').value = cita.telefono;
+        document.getElementById('editarTipoMascota').value = cita.tipo_mascota;
+        document.getElementById('editarFecha').value = cita.fecha;
+        document.getElementById('editarHora').value = cita.hora;
+        document.getElementById('editarSintomas').value = cita.sintomas;
+
+        const modalEditar = new bootstrap.Modal(document.getElementById('editar_cita'));
+        modalEditar.show();
+      }
+    });
+
+    // Guardar edición de cita
+    document.getElementById('formEditarCita').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const id = document.getElementById('editarID').value;
+      const citas = JSON.parse(localStorage.getItem('citas')) || [];
+      const index = citas.findIndex(c => c.id === id);
+      if (index === -1) return;
+
+      citas[index] = {
+        id,
+        dueño: document.getElementById('editarNombreDueño').value.trim(),
+        mascota: document.getElementById('editarNombreMascota').value.trim(),
+        telefono: document.getElementById('editarTelefono').value.trim(),
+        tipo_mascota: document.getElementById('editarTipoMascota').value.trim(),
+        fecha: document.getElementById('editarFecha').value,
+        hora: document.getElementById('editarHora').value,
+        sintomas: document.getElementById('editarSintomas').value.trim()
+      };
+
+      localStorage.setItem('citas', JSON.stringify(citas));
+
+      document.getElementById('listaCitas').innerHTML = "";
+      citas.forEach(renderCita);
+
+      const modal = bootstrap.Modal.getInstance(document.getElementById('editar_cita'));
+      modal.hide();
     });
   </script>
+
+
+
+
+
 </body>
+
 </html>
