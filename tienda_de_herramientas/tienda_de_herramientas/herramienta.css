@@ -23,7 +23,7 @@
 
  .header-principal {
     
-    background-image: url(../img/forma2.jpg);
+    
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     padding: 20px;
 
@@ -137,7 +137,7 @@
 
  /* Hero/Banner */
  .banner {
-     background-image: url(img/forma2.jpg);
+     background-image: url(../img/forma2.jpg)
      background-size: cover;
      background-position: center;
      height: 250px;
