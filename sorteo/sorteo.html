@@ -49,7 +49,7 @@
       font-size: 0.9em;
     }
 
-    /* Estilos para la segunda pantalla */
+    
     .ticket-container {
       display: none;
       margin-top: 30px;
@@ -62,7 +62,7 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
-    /* Estilos para el sistema de boletas */
+   
     .tickets-section {
       background-color: white;
       padding: 20px;
@@ -119,18 +119,18 @@
       text-transform: uppercase;
     }
     
-    /* Estados de las boletas */
+
     .ticket.available {
-      background-color: #0d6efd; /* Azul - Disponible */
+      background-color: #0d6efd; 
     }
     
     .ticket.reserved {
-      background-color: #ffc107; /* Amarillo - Apartada */
+      background-color: #ffc107; 
       color: #212529;
     }
     
     .ticket.sold {
-      background-color: #198754; /* Verde - Vendida */
+      background-color: #198754; 
     }
     
     /* Controles de estado */
@@ -171,7 +171,7 @@
       color: white;
     }
     
-    /* Estilos para la información y resumen */
+   
     .info-summary {
       display: flex;
       flex-wrap: wrap;
@@ -220,7 +220,7 @@
       font-size: 1.1em;
     }
 
-    /* Estilos responsivos */
+
     @media (max-width: 768px) {
       .tickets-grid {
         grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
@@ -247,7 +247,7 @@
 
 <body>
   <div class="container">
-    <!-- Primera pantalla - Formulario -->
+  
     <div class="card" id="formScreen">
       <h1 class="header text-center">TALONARIO DE RIFAS</h1>
       
@@ -297,13 +297,13 @@
       </div>
     </div>
     
-    <!-- Segunda pantalla - Información del talonario -->
+
     <div class="ticket-container" id="ticketScreen">
       <div class="card">
         <h1 class="header text-center">TALONARIO DE RIFAS</h1>
         
         <div class="p-4">
-          <!-- Sección superior: Información y resumen -->
+       
           <div class="info-summary">
             <div class="info-box">
               <h4>Información del Talonario</h4>
@@ -327,25 +327,25 @@
             </div>
           </div>
           
-          <!-- Sección inferior: Boletas -->
+        
           <div class="tickets-section">
             <h4 class="mb-3">Boletas del Talonario</h4>
             
-            <!-- Controles de estado -->
+            
             <div class="status-controls">
               <div class="status-btn available active" data-status="available">Disponible</div>
               <div class="status-btn reserved" data-status="reserved">Apartada</div>
               <div class="status-btn sold" data-status="sold">Vendida</div>
             </div>
             
-            <!-- Grid de boletas -->
+         
             <div class="tickets-grid-container">
               <div class="tickets-grid" id="numbersGrid"></div>
             </div>
           </div>
         </div>
         
-        <!-- Acciones -->
+     
         <div class="actions-section">
           <div class="d-flex justify-content-center flex-wrap">
             <button id="printTickets" class="btn btn-success btn-action mb-2">
@@ -370,12 +370,12 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   
   <script>
-    // Variables globales
+  
     let raffleInfo = {};
     let tickets = [];
     let currentStatus = 'available';
     
-    // Cargar datos del localStorage al iniciar
+ 
     document.addEventListener('DOMContentLoaded', function() {
       const savedData = localStorage.getItem('raffleInfo');
       if (savedData) {
@@ -383,17 +383,17 @@
         raffleInfo = data.info || {};
         tickets = data.tickets || [];
         
-        // Rellenar el formulario con los datos guardados
+        
         document.getElementById('prize').value = raffleInfo.prize || '';
         document.getElementById('ticketPrice').value = raffleInfo.ticketPrice || '';
         document.getElementById('lottery').value = raffleInfo.lottery || '';
         document.getElementById('ticketCount').value = raffleInfo.ticketCount || '';
         document.getElementById('date').value = raffleInfo.date || '';
         
-        // Validar el botón de guardar
+     
         document.getElementById('saveBtn').disabled = !document.getElementById('raffleForm').checkValidity();
         
-        // Si ya hay datos guardados, mostrar directamente la pantalla del talonario
+     
         if (raffleInfo.prize) {
           document.getElementById('formScreen').style.display = 'none';
           document.getElementById('ticketScreen').style.display = 'block';
@@ -404,11 +404,11 @@
         }
       }
       
-      // Configurar controles de estado
+  
       setupStatusControls();
     });
     
-    // Configurar controles de estado
+  
     function setupStatusControls() {
       const statusBtns = document.querySelectorAll('.status-btn');
       statusBtns.forEach(btn => {
@@ -420,18 +420,17 @@
       });
     }
     
-    // Validar formulario en tiempo real
+
     document.getElementById('raffleForm').addEventListener('input', function() {
       const form = this;
       const saveBtn = document.getElementById('saveBtn');
       saveBtn.disabled = !form.checkValidity();
     });
-    
-    // Manejar el envío del formulario
+
     document.getElementById('raffleForm').addEventListener('submit', function(e) {
       e.preventDefault();
       
-      // Almacenar la información
+
       raffleInfo = {
         prize: document.getElementById('prize').value,
         ticketPrice: document.getElementById('ticketPrice').value,
@@ -440,7 +439,7 @@
         date: document.getElementById('date').value
       };
       
-      // Inicializar las boletas
+
       tickets = [];
       const count = parseInt(raffleInfo.ticketCount);
       for (let i = 1; i <= count; i++) {
@@ -451,32 +450,32 @@
         });
       }
       
-      // Guardar en localStorage
+
       saveToLocalStorage();
       
-      // Mostrar mensaje de éxito
+
       Swal.fire({
         title: '¡Talonario creado!',
         text: 'El talonario ha sido configurado correctamente.',
         icon: 'success'
       }).then(() => {
-        // Ocultar formulario y mostrar pantalla de talonario
+
         document.getElementById('formScreen').style.display = 'none';
         document.getElementById('ticketScreen').style.display = 'block';
         
-        // Mostrar la información guardada
+
         displayRaffleInfo();
         
-        // Generar números de boletas
+
         generateTicketNumbers();
         
-        // Actualizar contadores
+
         updateCounters();
         updateMoneySummary();
       });
     });
     
-    // Mostrar la información del talonario
+
     function displayRaffleInfo() {
       document.getElementById('displayPrize').textContent = '$' + raffleInfo.prize;
       document.getElementById('displayPrice').textContent = '$' + raffleInfo.ticketPrice;
@@ -493,7 +492,7 @@
       document.getElementById('displayDate').textContent = raffleInfo.date;
     }
     
-    // Generar números de boletas
+
     function generateTicketNumbers() {
       const numbersGrid = document.getElementById('numbersGrid');
       numbersGrid.innerHTML = '';
@@ -513,14 +512,14 @@
           const ticketIndex = tickets.findIndex(t => t.number === ticketNumber);
           
           if (ticketIndex !== -1) {
-            // Cambiar el estado según la selección actual
+ 
             tickets[ticketIndex].status = currentStatus;
             
-            // Actualizar la visualización
+       
             this.className = `ticket ${currentStatus}`;
             this.querySelector('.status').textContent = getStatusText(currentStatus);
             
-            // Guardar cambios y actualizar contadores
+  
             saveToLocalStorage();
             updateCounters();
             updateMoneySummary();
@@ -531,7 +530,7 @@
       });
     }
     
-    // Obtener texto descriptivo del estado
+
     function getStatusText(status) {
       switch(status) {
         case 'available': return 'Disponible';
@@ -541,7 +540,7 @@
       }
     }
     
-    // Actualizar contadores de estados
+
     function updateCounters() {
       const available = tickets.filter(t => t.status === 'available').length;
       const reserved = tickets.filter(t => t.status === 'reserved').length;
@@ -552,7 +551,7 @@
       document.getElementById('soldCount').textContent = sold;
     }
     
-    // Actualizar resumen de dinero
+
     function updateMoneySummary() {
       const ticketPrice = parseFloat(raffleInfo.ticketPrice) || 0;
       const reserved = tickets.filter(t => t.status === 'reserved').length;
@@ -565,7 +564,7 @@
       document.getElementById('moneyPending').textContent = '$' + moneyPending.toLocaleString('es-ES');
     }
     
-    // Guardar datos en localStorage
+
     function saveToLocalStorage() {
       localStorage.setItem('raffleInfo', JSON.stringify({
         info: raffleInfo,
@@ -573,7 +572,7 @@
       }));
     }
     
-    // Botón para crear nuevo talonario
+
     document.getElementById('newRaffle').addEventListener('click', function() {
       Swal.fire({
         title: '¿Crear nuevo talonario?',
@@ -586,7 +585,7 @@
         cancelButtonText: 'Cancelar'
       }).then((result) => {
         if (result.isConfirmed) {
-          // Limpiar el localStorage
+
           localStorage.removeItem('raffleInfo');
           
           document.getElementById('ticketScreen').style.display = 'none';
@@ -597,7 +596,7 @@
       });
     });
     
-    // Botones de acciones (simulados)
+
     document.getElementById('printTickets').addEventListener('click', function() {
       Swal.fire('Impresión', 'Las boletas se enviarán a impresión.', 'info');
     });
