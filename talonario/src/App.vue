@@ -14,7 +14,7 @@
 
       <!-- Estadísticas -->
       <div class="row mb-4">
-        <div class="col-md-6 mb-3">
+        <div class="col-md-4 mb-3">
           <div class="card bg-primary text-white">
             <div class="card-body text-center">
               <i class="fas fa-ticket-alt fa-2x mb-2"></i>
@@ -23,7 +23,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6 mb-3">
+        <div class="col-md-4 mb-3">
           <div class="card bg-success text-white">
             <div class="card-body text-center">
               <i class="fas fa-play-circle fa-2x mb-2"></i>
@@ -32,7 +32,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6 mb-3">
+        <div class="col-md-4 mb-3">
           <div class="card bg-warning text-dark">
             <div class="card-body text-center">
               <i class="fas fa-dollar-sign fa-2x mb-2"></i>
@@ -45,10 +45,10 @@
 
       <!-- Controles -->
       <div class="row mb-">
-        <div class="col-md-6">
+        <div class="col-md-10">
           <h3 class="text-primary">Mis Rifas</h3>
         </div>
-        <div class="col-md-6 text-end">
+        <div class="col-md-2 text-end ">
           <button class="btn btn-success btn-lg" @click="cambiarVista('crear')">
             <i class="fas fa-plus me-2"></i>Nueva Rifa
           </button>
@@ -67,11 +67,11 @@
         </button>
       </div>
 
-      <div v-else class="row">
+      <div v-else class="row pt-3">
         <div
           v-for="rifa in rifas"
           :key="rifa.id"
-          class="col-lg-6 col-md-6 mb-4"
+          class="col-lg-4 col-md-6 mb-4"
         >
           <div
             class="card h-100 shadow-sm cursor-pointer"
@@ -938,6 +938,7 @@ const cambiarVista = (vista) => {
 };
 
 const regresarDashboard = () => {
+  rifaEditando.value = null;
   cambiarVista("dashboard");
 };
 
@@ -1009,12 +1010,13 @@ const guardarRifa = async () => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     if (rifaEditando.value) {
-      const index = rifas.value.findIndex(
-        (r) => r.id === rifaEditando.value.id
-      );
+      // Encuentra el índice de la rifa que se está editando
+      const index = rifas.value.findIndex((r) => r.id === rifaEditando.value.id);
+      
+      // Actualiza la rifa existente con los nuevos datos
       rifas.value[index] = {
-        ...rifas.value[index],
-        ...formularioRifa.value,
+        ...rifas.value[index], // Mantén los datos existentes (como id, fechaCreacion, etc.)
+        ...formularioRifa.value, // Sobrescribe con los nuevos datos del formulario
         fechaModificacion: new Date().toLocaleDateString(),
       };
 
@@ -1026,6 +1028,7 @@ const guardarRifa = async () => {
         showConfirmButton: false,
       });
     } else {
+      // Crea una nueva rifa si no se está editando
       const nuevaRifa = {
         ...formularioRifa.value,
         id: Date.now(),
@@ -1048,6 +1051,7 @@ const guardarRifa = async () => {
 
     guardarRifas();
     cambiarVista("dashboard");
+    rifaEditando.value = null; // Limpia el estado de edición
   } catch (error) {
     Swal.fire({
       title: "Error",
@@ -1061,9 +1065,18 @@ const guardarRifa = async () => {
 
 const editarRifa = (rifa) => {
   rifaEditando.value = rifa;
-  formularioRifa.value = { ...rifa };
+  formularioRifa.value = {
+    nombre: rifa.nombre,
+    premio: rifa.premio,
+    valorBoleta: rifa.valorBoleta,
+    cantidadBoletas: rifa.cantidadBoletas,
+    loteria: rifa.loteria,
+    fechaSorteo: rifa.fechaSorteo,
+    descripcion: rifa.descripcion || "",
+  };
   cambiarVista("crear");
 };
+
 
 const eliminarRifa = async (rifaId) => {
   const result = await Swal.fire({
@@ -1143,7 +1156,15 @@ const guardarBoletas = () => {
 };
 
 const abrirModal = (boleta) => {
-  boletaSeleccionada.value = { ...boleta };
+  boletaSeleccionada.value = {
+    numero: boleta.numero,
+    estado: boleta.estado,
+    comprador: boleta.comprador || "",
+    telefono: boleta.telefono || "",
+    cedula: boleta.cedula || "",
+    observaciones: boleta.observaciones || "",
+    fecha: boleta.fecha || null
+  };
   mostrarModal.value = true;
 };
 
@@ -1202,39 +1223,30 @@ const guardarBoleta = async () => {
     }
   }
 
+ // Encuentra el índice de la boleta en el array
   const index = boletas.value.findIndex(
-    (b) => b.numero === boletaSeleccionada.value.numero
+    b => b.numero === boletaSeleccionada.value.numero
   );
 
-  if (boletaSeleccionada.value.estado === "disponible") {
-    // Limpiar datos si la boleta vuelve a disponible
-    boletaSeleccionada.value = {
-      ...boletaSeleccionada.value,
-      comprador: "",
-      telefono: "",
-      cedula: "",
-      observaciones: "",
-      fecha: null,
+  if (index !== -1) {
+    // Actualiza SOLO los campos editados, manteniendo los demás
+    boletas.value[index] = {
+      ...boletas.value[index], // Mantiene los datos existentes
+      ...boletaSeleccionada.value, // Sobrescribe con los nuevos valores
+      fecha: boletaSeleccionada.value.fecha || new Date().toLocaleDateString() // Actualiza fecha si es necesario
     };
-  } else {
-    // Establecer fecha solo si no existe
-    if (!boletas.value[index].fecha) {
-      boletaSeleccionada.value.fecha = new Date().toLocaleDateString();
-    }
+    
+    guardarBoletas();
+    cerrarModal();
+    
+    Swal.fire({
+      title: "¡Actualizada!",
+      text: `Boleta #${boletaSeleccionada.value.numero} actualizada`,
+      icon: "success",
+      timer: 1500,
+      showConfirmButton: false
+    });
   }
-
-  // Actualizar la boleta
-  boletas.value[index] = { ...boletaSeleccionada.value };
-  guardarBoletas();
-  cerrarModal();
-
-  Swal.fire({
-    title: "¡Actualizada!",
-    text: `Boleta #${boletaSeleccionada.value.numero} ${boletaSeleccionada.value.estado}`,
-    icon: "success",
-    timer: 1500,
-    showConfirmButton: false,
-  });
 };
 const claseEstadoBoleta = (estado) => {
   const clases = {
@@ -1494,6 +1506,7 @@ watch(busqueda, () => {
 .card {
   padding: 0 !important;
 }
+
 @media print {
   .numero-boleta {
     page-break-inside: avoid;
