@@ -4,14 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-  "dev": "vite",
-  "build": "vite build",
-  "preview": "vite preview"
-},
-
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
   "dependencies": {
+    "@vuepic/vue-datepicker": "^11.0.2",
     "bootstrap": "^5.3.7",
     "font-awesome": "^4.7.0",
+    "html2pdf.js": "^0.10.3",
     "sweetalert2": "^11.22.2",
     "vue": "^3.5.17"
   },
