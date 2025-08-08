@@ -1,403 +1,711 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="citas_mascotas.css" rel="stylesheet" />
-  <title>Agendación de Citas - Mascotas</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Franklin Yeffrey Peña - Diseñador Gráfico</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-black: #000000;
+            --primary-white: #ffffff;
+            --accent-gold: #C9A96E;
+            --light-gray: #f5f5f5;
+            --medium-gray: #888888;
+            --dark-gray: #333333;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--primary-black);
+            background-color: var(--primary-white);
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--primary-white);
+            border-bottom: 1px solid #eee;
+            z-index: 1000;
+            padding: 0 5%;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-black);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--primary-black);
+            font-weight: 400;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: var(--accent-gold);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 100px 5% 0;
+            background: var(--primary-white);
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 4.5rem;
+            font-weight: 300;
+            line-height: 1.1;
+            margin-bottom: 30px;
+            color: var(--primary-black);
+        }
+
+        .hero-content .highlight {
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            color: var(--medium-gray);
+            margin-bottom: 40px;
+            max-width: 500px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--primary-black);
+            color: var(--primary-white);
+            padding: 15px 40px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary-black);
+        }
+
+        .cta-button:hover {
+            background: var(--primary-white);
+            color: var(--primary-black);
+        }
+
+        .hero-visual {
+            position: relative;
+            height: 600px;
+            background: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .visual-placeholder {
+            width: 200px;
+            height: 200px;
+            background: var(--accent-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-white);
+        }
+
+        /* Services Section */
+        .services {
+            padding: 120px 5%;
+            background: var(--primary-black);
+            color: var(--primary-white);
+        }
+
+        .services-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 60px;
+        }
+
+        .service-card {
+            padding: 40px 0;
+            border-bottom: 1px solid #333;
+        }
+
+        .service-card h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--accent-gold);
+        }
+
+        .service-card p {
+            color: #ccc;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .service-list {
+            list-style: none;
+        }
+
+        .service-list li {
+            color: #999;
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .service-list li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--accent-gold);
+        }
+
+        /* About Section */
+        .about {
+            padding: 120px 5%;
+            background: var(--light-gray);
+        }
+
+        .about-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .about-content h2 {
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 40px;
+            color: var(--primary-black);
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--dark-gray);
+            margin-bottom: 30px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--medium-gray);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Portfolio Section */
+        .portfolio {
+            padding: 120px 5%;
+            background: var(--primary-white);
+        }
+
+        .portfolio-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .portfolio-item {
+            background: var(--light-gray);
+            aspect-ratio: 16/10;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 40px 30px 30px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .portfolio-item:hover .portfolio-overlay {
+            transform: translateY(0);
+        }
+
+        .portfolio-overlay h4 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .portfolio-overlay p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 120px 5%;
+            background: var(--primary-black);
+            color: var(--primary-white);
+        }
+
+        .contact-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+        }
+
+        .contact-info h2 {
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 40px;
+        }
+
+        .contact-info p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #ccc;
+            margin-bottom: 40px;
+        }
+
+        .contact-methods {
+            list-style: none;
+        }
+
+        .contact-methods li {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .contact-methods a {
+            color: var(--accent-gold);
+            text-decoration: none;
+        }
+
+        .contact-form {
+            background: #111;
+            padding: 40px;
+            border-radius: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ccc;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            background: #222;
+            border: 1px solid #333;
+            color: white;
+            border-radius: 4px;
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: var(--accent-gold);
+            color: var(--primary-black);
+            padding: 15px 40px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background: #b8956a;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--primary-black);
+            color: #666;
+            text-align: center;
+            padding: 40px 5%;
+            border-top: 1px solid #333;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero-container,
+            .about-container,
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+
+            .section-title,
+            .about-content h2,
+            .contact-info h2 {
+                font-size: 2.2rem;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
-
 <body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="#" class="logo">Franklin Peña</a>
+            <ul class="nav-menu">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#sobre-mi">Sobre mí</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </div>
+    </nav>
 
-  <div class="headen">
-    <h1>Agendamiento de citas</h1>
-  </div>
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="hero-container">
+            <div class="hero-content fade-in">
+                <h1>Diseño que <span class="highlight">conecta</span> ideas con <span class="highlight">resultados</span></h1>
+                <p>Soy diseñador gráfico y ayudo a marcas a comunicar visualmente su producto o servicio. Mi trabajo va más allá del diseño visual: conecto ideas, conceptos y estrategias para transmitir mensajes claros y efectivos.</p>
+                <a href="#contacto" class="cta-button">Trabajemos juntos</a>
+            </div>
+            <div class="hero-visual">
+                <div class="visual-placeholder">FP</div>
+            </div>
+        </div>
+    </section>
 
-  <div class="contenedor">
-    <!-- Botón para abrir modal -->
-    <div class="d-flex justify-content-center">
-      <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#agendar_cita">Agendar
-        nueva cita
-      </button>
-    </div>
+    <!-- Services Section -->
+    <section id="servicios" class="services">
+        <div class="services-container">
+            <h2 class="section-title fade-in">Servicios</h2>
+            <div class="services-grid">
+                <div class="service-card fade-in">
+                    <h3>Diseño Gráfico</h3>
+                    <p>Creación de identidades visuales sólidas que reflejan la esencia de tu marca.</p>
+                    <ul class="service-list">
+                        <li>Logotipos</li>
+                        <li>Manual de marca</li>
+                        <li>Papelería corporativa</li>
+                        <li>Tarjetas de presentación</li>
+                        <li>Merchandising</li>
+                    </ul>
+                </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="agendar_cita" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <form id="formCita">
-            <div class="modal-body">
-              <input type="text" id="nombreDueño" class="form-control mb-2" placeholder="Nombre del propietario"
-                required>
-              <input type="text" id="nombreMascota" class="form-control mb-2" placeholder="Nombre de la mascota"
-                required>
-              <input type="text" id="telefono" class="form-control mb-2" placeholder="Celular del propietario" required
-                pattern="^[0-9]{7,15}$" title="Solo números. Mínimo 7, máximo 15 dígitos.">
+                <div class="service-card fade-in">
+                    <h3>Redes Sociales</h3>
+                    <p>Estrategia visual completa para maximizar el impacto en plataformas digitales.</p>
+                    <ul class="service-list">
+                        <li>Piezas informativas y promocionales</li>
+                        <li>Historias animadas</li>
+                        <li>Reels y contenido audiovisual</li>
+                        <li>Cobertura de eventos</li>
+                    </ul>
+                </div>
 
+                <div class="service-card fade-in">
+                    <h3>Community Manager</h3>
+                    <p>Gestión integral de tu presencia digital con estrategia y resultados medibles.</p>
+                    <ul class="service-list">
+                        <li>Planeación de contenido mensual</li>
+                        <li>Administración de redes</li>
+                        <li>Redacción de copys optimizados</li>
+                        <li>Análisis de métricas</li>
+                    </ul>
+                </div>
 
+                <div class="service-card fade-in">
+                    <h3>Publicidad Digital</h3>
+                    <p>Campañas efectivas que conectan con tu audiencia objetivo y generan conversiones.</p>
+                    <ul class="service-list">
+                        <li>Campañas en Meta Ads</li>
+                        <li>Segmentación de audiencias</li>
+                        <li>Optimización de presupuestos</li>
+                        <li>Naming estratégico</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
 
-              <!-- Menú desplegable de tipo de mascota -->
-              <div class="dropdown mb-2">
-                <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="dropdownTipoMascota"
-                  data-bs-toggle="dropdown" aria-expanded="false">
-                  Tipo de mascota
-                </button>
-                <ul class="dropdown-menu w-100" aria-labelledby="dropdownTipoMascota" id="menuTipoMascota">
-                  <li><a class="dropdown-item" href="#">Perro</a></li>
-                  <li><a class="dropdown-item" href="#">Gato</a></li>
-                  <li><a class="dropdown-item" href="#">Ave</a></li>
-                  <li><a class="dropdown-item" href="#">Conejo</a></li>
-                  <li><a class="dropdown-item" href="#">Hámster</a></li>
-                  <li><a class="dropdown-item" href="#">Tortuga</a></li>
-                  <li><a class="dropdown-item" href="#">Pez</a></li>
-                  <li><a class="dropdown-item" href="#">Hurón</a></li>
-                  <li><a class="dropdown-item" href="#">Iguana</a></li>
-                  <li><a class="dropdown-item" href="#">Caballo</a></li>
+    <!-- About Section -->
+    <section id="sobre-mi" class="about">
+        <div class="about-container">
+            <div class="about-image">
+                <div class="stats">
+                    <div class="stat">
+                        <span class="stat-number">27K+</span>
+                        <span class="stat-label">Personas alcanzadas</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">3+</span>
+                        <span class="stat-label">Años de experiencia</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">15+</span>
+                        <span class="stat-label">Proyectos completados</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Clientes satisfechos</span>
+                    </div>
+                </div>
+            </div>
+            <div class="about-content fade-in">
+                <h2>Diseño con intención, estética y funcionalidad</h2>
+                <p class="about-text">Trabajo desde una conexión emocional con las marcas. Me involucro desde el concepto hasta la ejecución, combinando diseño estratégico con visión de marca.</p>
+                <p class="about-text">Mi pasión es contar historias visuales que no solo se vean bien, sino que comuniquen de manera efectiva y generen resultados tangibles para mis clientes.</p>
+                <p class="about-text">Basado en Colombia, con proyecciones de expansión en ciudades importantes de Latinoamérica y Estados Unidos, ofrezco soluciones creativas que trascienden fronteras.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio">
+        <div class="portfolio-container">
+            <h2 class="section-title fade-in">Casos de Éxito</h2>
+            <div class="portfolio-grid">
+                <div class="portfolio-item fade-in">
+                    <div class="portfolio-overlay">
+                        <h4>CDA Chicamocha</h4>
+                        <p>Estrategia visual completa, reels, copys y campaña publicitaria con más de 27 mil personas alcanzadas</p>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item fade-in">
+                    <div class="portfolio-overlay">
+                        <h4>CAM Network</h4>
+                        <p>Desarrollo de contenido fotográfico, piezas visuales y storytelling para empresa de conectividad rural</p>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item fade-in">
+                    <div class="portfolio-overlay">
+                        <h4>Importados y Coleccionables</h4>
+                        <p>Manejo integral de redes sociales, planeación de contenido y estrategia digital</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contacto" class="contact">
+        <div class="contact-container">
+            <div class="contact-info fade-in">
+                <h2>Conversemos sobre tu proyecto</h2>
+                <p>¿Tienes una idea que necesita cobrar vida visual? Me encantaría conocer tu proyecto y ayudarte a crear algo extraordinario.</p>
+                <ul class="contact-methods">
+                    <li>📧 Email: <a href="mailto:franklin@email.com">franklin@email.com</a></li>
+                    <li>📱 WhatsApp: <a href="https://wa.me/573123456789">+57 312 345 6789</a></li>
+                    <li>📍 Ubicación: San Gil, Colombia</li>
+                    <li>🌐 Instagram: <a href="#">@franklin.design</a></li>
                 </ul>
-              </div>
-              <input type="hidden" id="tipoMascotaSeleccionada">
-
-              <label for="fechaCita" class="form-label">Selecciona la fecha de la cita:</label>
-              <input type="date" class="form-control mb-2" id="fechaCita" name="fechaCita" required>
-
-              <label for="horaCita" class="form-label">Selecciona la hora de la cita:</label>
-              <select class="form-select mb-2" id="horaCita" name="horaCita" required>
-                <option value="">-- Selecciona una hora --</option>
-                <!-- Mañana -->
-                <option value="08:00">08:00</option>
-                <option value="08:30">08:30</option>
-                <option value="09:00">09:00</option>
-                <option value="09:30">09:30</option>
-                <option value="10:00">10:00</option>
-                <option value="10:30">10:30</option>
-                <option value="11:00">11:00</option>
-                <option value="11:30">11:30</option>
-                <!-- Tarde -->
-                <option value="14:00">14:00</option>
-                <option value="14:30">14:30</option>
-                <option value="15:00">15:00</option>
-                <option value="15:30">15:30</option>
-                <option value="16:00">16:00</option>
-                <option value="16:30">16:30</option>
-                <option value="17:00">17:00</option>
-                <option value="17:30">17:30</option>
-                <option value="18:00">18:00</option>
-              </select>
-              <div class="invalid-feedback">Favor seleccionar una hora válida.</div>
-
-
-              <textarea id="sintomas" class="form-control" rows="3" placeholder="Describe los síntomas..."
-                required></textarea>
             </div>
-
-
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-primary" id="guardarCita">Guardar Cita</button>
-            </div>
-          </form>
+            
+            <form class="contact-form fade-in">
+                <div class="form-group">
+                    <label for="name">Nombre</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="project">Cuéntame sobre tu proyecto</label>
+                    <textarea id="project" name="project" placeholder="Describe tu proyecto, objetivos y cómo puedo ayudarte..." required></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">Enviar mensaje</button>
+            </form>
         </div>
-      </div>
-    </div>
+    </section>
 
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 Franklin Yeffrey Peña. Diseñando conexiones visuales que trascienden.</p>
+    </footer>
 
-    <div class="citas-container">
-      <h2>Citas Agendadas</h2>
-      <div id="listaCitas" class="cartas-wrapper">
-      </div>
-    </div>
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
 
+        // Form submission
+        document.querySelector('.contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const project = document.getElementById('project').value;
+            
+            // Create WhatsApp message
+            const message = `Hola Franklin! Soy ${name}. 
+            
+Email: ${email}
+            
+Proyecto: ${project}`;
+            
+            const whatsappURL = `https://wa.me/573123456789?text=${encodeURIComponent(message)}`;
+            window.open(whatsappURL, '_blank');
+        });
 
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
 
-    <!-- Modal para editar cita -->
-    <div class="modal fade" id="editar_cita" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <form id="formEditarCita">
-            <div class="modal-body">
-              <input type="hidden" id="editarID">
-              <input type="text" id="editarNombreDueño" class="form-control mb-2" placeholder="Nombre del propietario"
-                required>
-              <input type="text" id="editarNombreMascota" class="form-control mb-2" placeholder="Nombre de la mascota"
-                required>
-              <input type="text" id="editarTelefono" class="form-control mb-2" placeholder="Celular del propietario"
-                required pattern="^[0-9]{7,15}$" title="Solo números. Mínimo 7, máximo 15 dígitos.">
-              <input type="text" id="editarTipoMascota" class="form-control mb-2" placeholder="Tipo de mascota"
-                required>
-              <label for="editarFecha" class="form-label">Fecha:</label>
-              <input type="date" id="editarFecha" class="form-control mb-2" required>
-              <label for="editarHora" class="form-label">Hora:</label>
-              <select id="editarHora" class="form-select mb-2" required>
-                <option value="">-- Selecciona una hora --</option>
-                <option value="08:00">08:00</option>
-                <option value="08:30">08:30</option>
-                <option value="09:00">09:00</option>
-                <option value="09:30">09:30</option>
-                <option value="10:00">10:00</option>
-                <option value="10:30">10:30</option>
-                <option value="11:00">11:00</option>
-                <option value="11:30">11:30</option>
-                <option value="14:00">14:00</option>
-                <option value="14:30">14:30</option>
-                <option value="15:00">15:00</option>
-                <option value="15:30">15:30</option>
-                <option value="16:00">16:00</option>
-                <option value="16:30">16:30</option>
-                <option value="17:00">17:00</option>
-                <option value="17:30">17:30</option>
-                <option value="18:00">18:00</option>
-              </select>
-              <textarea id="editarSintomas" class="form-control mt-2" rows="3" placeholder="Describe los síntomas..."
-                required></textarea>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-success">Guardar Cambios</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationDelay = '0.2s';
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-  <script>
-    const imagenesMascotas = {
-      "Perro": "img/perro.jpeg",
-      "Gato": "img/gato.jpg",
-      "Ave": "img/ave.jpg",
-      "Conejo": "img/conejo.jpg",
-      "Hámster": "img/hamster.jpg",
-      "Tortuga": "img/Tortuga.jpg",
-      "Pez": "img/pez_dorado.jpg",
-      "Hurón": "img/huron.jpg",
-      "Iguana": "img/iguana.jpg",
-      "Caballo": "img/caballo.jpg"
-    };
-
-    function generarIDUnico() {
-      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-      let id = '';
-      for (let i = 0; i < 8; i++) {
-        id += chars.charAt(Math.floor(Math.random() * chars.length));
-      }
-      return id;
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      const hoy = new Date();
-      const yyyy = hoy.getFullYear();
-      const mm = String(hoy.getMonth() + 1).padStart(2, '0');
-      const dd = String(hoy.getDate()).padStart(2, '0');
-      const fechaMinima = `${yyyy}-${mm}-${dd}`;
-      document.getElementById('fechaCita').setAttribute('min', fechaMinima);
-
-      const citasGuardadas = JSON.parse(localStorage.getItem('citas')) || [];
-      citasGuardadas.forEach(cita => renderCita(cita));
-    });
-
-    const dropdownItems = document.querySelectorAll('#menuTipoMascota .dropdown-item');
-    const dropdownButton = document.getElementById('dropdownTipoMascota');
-    const inputTipoMascota = document.getElementById('tipoMascotaSeleccionada');
-
-    dropdownItems.forEach(item => {
-      item.addEventListener('click', function (e) {
-        e.preventDefault();
-        dropdownButton.textContent = this.textContent.trim();
-        inputTipoMascota.value = this.textContent.trim();
-
-        dropdownButton.classList.remove('is-invalid');
-        const feedback = dropdownButton.nextElementSibling;
-        if (feedback) feedback.style.display = 'none';
-      });
-    });
-
-    // Solo permitir números en los campos de teléfono
-    document.addEventListener('input', function (e) {
-      if (e.target.id === 'telefono' || e.target.id === 'editarTelefono') {
-        e.target.value = e.target.value.replace(/\D/g, '');
-      }
-    });
-
-    document.getElementById('guardarCita').addEventListener('click', function () {
-      const dueñoInput = document.getElementById('nombreDueño');
-      const mascotaInput = document.getElementById('nombreMascota');
-      const telefonoInput = document.getElementById('telefono');
-      const fechaInput = document.getElementById('fechaCita');
-      const horaInput = document.getElementById('horaCita');
-      const sintomasInput = document.getElementById('sintomas');
-      const tipo_mascota = inputTipoMascota.value.trim();
-
-
-
-      function validarCampo(input) {
-        if (!input.value.trim()) {
-          input.classList.add('is-invalid');
-          return false;
-        } else {
-          input.classList.remove('is-invalid');
-          return true;
-        }
-      }
-
-      let valido = true;
-      valido = validarCampo(dueñoInput) && valido;
-      valido = validarCampo(mascotaInput) && valido;
-      valido = validarCampo(telefonoInput) && valido;
-      valido = validarCampo(fechaInput) && valido;
-      valido = validarCampo(horaInput) && valido;
-      valido = validarCampo(sintomasInput) && valido;
-
-      const feedback = dropdownButton.nextElementSibling;
-      if (!tipo_mascota) {
-        dropdownButton.classList.add('is-invalid');
-        if (feedback) feedback.style.display = 'block';
-        valido = false;
-      } else {
-        dropdownButton.classList.remove('is-invalid');
-        if (feedback) feedback.style.display = 'none';
-      }
-
-      if (!valido) return;
-
-      const hoy = new Date();
-      const fechaSeleccionada = new Date(fechaInput.value);
-      hoy.setHours(0, 0, 0, 0);
-      fechaSeleccionada.setHours(0, 0, 0, 0);
-
-      if (fechaSeleccionada < hoy) {
-        alert("La fecha debe ser igual o posterior a hoy.");
-        return;
-      }
-
-      const idCita = generarIDUnico();
-
-      const nuevaCita = {
-        id: idCita,
-        dueño: dueñoInput.value.trim(),
-        mascota: mascotaInput.value.trim(),
-        telefono: telefonoInput.value.trim(),
-        fecha: fechaInput.value,
-        hora: horaInput.value,
-        tipo_mascota,
-        sintomas: sintomasInput.value.trim()
-      };
-
-      let citas = JSON.parse(localStorage.getItem('citas')) || [];
-      citas.push(nuevaCita);
-      localStorage.setItem('citas', JSON.stringify(citas));
-
-      renderCita(nuevaCita);
-
-      document.getElementById('formCita').reset();
-      dropdownButton.textContent = 'Tipo de mascota';
-      inputTipoMascota.value = '';
-      dropdownButton.classList.remove('is-invalid');
-      if (feedback) feedback.style.display = 'none';
-
-      const modal = bootstrap.Modal.getInstance(document.getElementById('agendar_cita'));
-      modal.hide();
-    });
-
-    function renderCita(cita) {
-      const lista = document.getElementById('listaCitas');
-      const card = document.createElement('div');
-      card.className = 'col';
-      card.setAttribute('data-id', cita.id);
-
-      card.innerHTML = `
-      <div class="card" style="width: 18rem;">
-        <h5 class="card-title d-flex justify-content-center">${cita.mascota}</h5>
-        <img src="${imagenesMascotas[cita.tipo_mascota] || 'img/default.jpg'}" class="card-img-top" alt="${cita.tipo_mascota}">
-        <div class="card-body">
-          <p class="card-text"><strong>Propietario:</strong> ${cita.dueño}</p>
-          <p class="card-text"><strong>Teléfono:</strong> ${cita.telefono}</p>
-          <p class="card-text"><strong>Tipo:</strong> ${cita.tipo_mascota}</p>
-          <p class="card-text"><strong>Fecha:</strong> ${cita.fecha}</p>
-          <p class="card-text"><strong>Hora:</strong> ${cita.hora}</p>
-          <p class="card-text"><strong>Síntomas:</strong> ${cita.sintomas}</p>
-          <p class="card-text d-flex justify-content-center"><strong>ID Cita:</strong> ${cita.id}</p>
-          <div class="d-flex justify-content-between">
-            <button class="btn btn-warning btn-sm editar-cita">Editar</button>
-            <button class="btn btn-danger btn-sm eliminar-cita">Eliminar</button>
-          </div>
-        </div>
-      </div>
-    `;
-
-      card.querySelector('.eliminar-cita').addEventListener('click', function () {
-        if (confirm("¿Eliminar esta cita?")) {
-          card.remove();
-          let citas = JSON.parse(localStorage.getItem('citas')) || [];
-          citas = citas.filter(c => c.id !== cita.id);
-          localStorage.setItem('citas', JSON.stringify(citas));
-        }
-      });
-
-      lista.appendChild(card);
-    }
-
-    // Abrir modal de edición con datos precargados
-    document.addEventListener('click', function (e) {
-      if (e.target.classList.contains('editar-cita')) {
-        const card = e.target.closest('.col');
-        const id = card.getAttribute('data-id');
-        const citas = JSON.parse(localStorage.getItem('citas')) || [];
-        const cita = citas.find(c => c.id === id);
-        if (!cita) return;
-
-        document.getElementById('editarID').value = cita.id;
-        document.getElementById('editarNombreDueño').value = cita.dueño;
-        document.getElementById('editarNombreMascota').value = cita.mascota;
-        document.getElementById('editarTelefono').value = cita.telefono;
-        document.getElementById('editarTipoMascota').value = cita.tipo_mascota;
-        document.getElementById('editarFecha').value = cita.fecha;
-        document.getElementById('editarHora').value = cita.hora;
-        document.getElementById('editarSintomas').value = cita.sintomas;
-
-        const modalEditar = new bootstrap.Modal(document.getElementById('editar_cita'));
-        modalEditar.show();
-      }
-    });
-
-    // Guardar edición de cita
-    document.getElementById('formEditarCita').addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      const id = document.getElementById('editarID').value;
-      const citas = JSON.parse(localStorage.getItem('citas')) || [];
-      const index = citas.findIndex(c => c.id === id);
-      if (index === -1) return;
-
-      citas[index] = {
-        id,
-        dueño: document.getElementById('editarNombreDueño').value.trim(),
-        mascota: document.getElementById('editarNombreMascota').value.trim(),
-        telefono: document.getElementById('editarTelefono').value.trim(),
-        tipo_mascota: document.getElementById('editarTipoMascota').value.trim(),
-        fecha: document.getElementById('editarFecha').value,
-        hora: document.getElementById('editarHora').value,
-        sintomas: document.getElementById('editarSintomas').value.trim()
-      };
-
-      localStorage.setItem('citas', JSON.stringify(citas));
-
-      document.getElementById('listaCitas').innerHTML = "";
-      citas.forEach(renderCita);
-
-      const modal = bootstrap.Modal.getInstance(document.getElementById('editar_cita'));
-      modal.hide();
-    });
-  </script>
-
-
-
-
-
+        // Observe all elements with fade-in class
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
 </body>
-
 </html>
