@@ -1,403 +1,1087 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="citas_mascotas.css" rel="stylesheet" />
-  <title>Agendación de Citas - Mascotas</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Citas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #7b68ee;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+        }
+
+        body {
+            background: linear-gradient(135deg, #86ffeb 0%, #0a836f 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .main-container {
+            background: rgba(255, 255, 255, 0.842);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            margin: 20px;
+            padding: 30px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px 0;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .calendar-container {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .calendar-grid {
+            background: white;
+        }
+
+        .calendar-days-header {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            margin-bottom: 10px;
+        }
+
+        .calendar-day-name {
+            background: var(--primary-color);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background: #e9ecef;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .calendar-day {
+            background: white;
+            min-height: 80px;
+            padding: 8px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .calendar-day:hover {
+            background: #f8f9fa;
+            transform: scale(1.02);
+            border-color: var(--primary-color);
+        }
+
+        .calendar-day.other-month {
+            background: #f8f9fa;
+            color: #6c757d;
+        }
+
+        .calendar-day.today {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .calendar-day.today:hover {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+        }
+
+        .day-number {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .day-appointments {
+            position: absolute;
+            bottom: 5px;
+            left: 5px;
+            right: 5px;
+        }
+
+        .appointment-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 1px;
+        }
+
+        .appointment-dot.abierta {
+            background-color: var(--success-color);
+        }
+
+        .appointment-dot.terminada {
+            background-color: var(--primary-color);
+        }
+
+        .appointment-dot.anulada {
+            background-color: var(--danger-color);
+        }
+
+        .appointment-count {
+            background: rgba(74, 144, 226, 0.1);
+            color: var(--primary-color);
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .stats-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+            border-left: 4px solid var(--primary-color);
+            transition: transform 0.3s ease;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .appointment-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .appointment-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .appointment-card.abierta {
+            border-left-color: var(--success-color);
+        }
+
+        .appointment-card.terminada {
+            border-left-color: var(--primary-color);
+        }
+
+        .appointment-card.anulada {
+            border-left-color: var(--danger-color);
+        }
+
+        .badge-status {
+            font-size: 0.75rem;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+
+        .badge-abierta {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .badge-terminada {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .badge-anulada {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        
+        .btn-custom {
+            border-radius: 25px;
+            padding: 10px 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-filter-section {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .modal-content {
+            border-radius: var(--border-radius);
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.25);
+        }
+
+        .pet-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .no-appointments {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+
+        .appointment-time {
+            background: var(--light-bg);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                margin: 10px;
+                padding: 20px;
+            }
+            
+            .stats-row {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
 </head>
-
 <body>
-
-  <div class="headen">
-    <h1>Agendamiento de citas</h1>
-  </div>
-
-  <div class="contenedor">
-    <!-- Botón para abrir modal -->
-    <div class="d-flex justify-content-center">
-      <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#agendar_cita">Agendar
-        nueva cita
-      </button>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="agendar_cita" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <form id="formCita">
-            <div class="modal-body">
-              <input type="text" id="nombreDueño" class="form-control mb-2" placeholder="Nombre del propietario"
-                required>
-              <input type="text" id="nombreMascota" class="form-control mb-2" placeholder="Nombre de la mascota"
-                required>
-              <input type="text" id="telefono" class="form-control mb-2" placeholder="Celular del propietario" required
-                pattern="^[0-9]{7,15}$" title="Solo números. Mínimo 7, máximo 15 dígitos.">
-
-
-
-              <!-- Menú desplegable de tipo de mascota -->
-              <div class="dropdown mb-2">
-                <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="dropdownTipoMascota"
-                  data-bs-toggle="dropdown" aria-expanded="false">
-                  Tipo de mascota
-                </button>
-                <ul class="dropdown-menu w-100" aria-labelledby="dropdownTipoMascota" id="menuTipoMascota">
-                  <li><a class="dropdown-item" href="#">Perro</a></li>
-                  <li><a class="dropdown-item" href="#">Gato</a></li>
-                  <li><a class="dropdown-item" href="#">Ave</a></li>
-                  <li><a class="dropdown-item" href="#">Conejo</a></li>
-                  <li><a class="dropdown-item" href="#">Hámster</a></li>
-                  <li><a class="dropdown-item" href="#">Tortuga</a></li>
-                  <li><a class="dropdown-item" href="#">Pez</a></li>
-                  <li><a class="dropdown-item" href="#">Hurón</a></li>
-                  <li><a class="dropdown-item" href="#">Iguana</a></li>
-                  <li><a class="dropdown-item" href="#">Caballo</a></li>
-                </ul>
-              </div>
-              <input type="hidden" id="tipoMascotaSeleccionada">
-
-              <label for="fechaCita" class="form-label">Selecciona la fecha de la cita:</label>
-              <input type="date" class="form-control mb-2" id="fechaCita" name="fechaCita" required>
-
-              <label for="horaCita" class="form-label">Selecciona la hora de la cita:</label>
-              <select class="form-select mb-2" id="horaCita" name="horaCita" required>
-                <option value="">-- Selecciona una hora --</option>
-                <!-- Mañana -->
-                <option value="08:00">08:00</option>
-                <option value="08:30">08:30</option>
-                <option value="09:00">09:00</option>
-                <option value="09:30">09:30</option>
-                <option value="10:00">10:00</option>
-                <option value="10:30">10:30</option>
-                <option value="11:00">11:00</option>
-                <option value="11:30">11:30</option>
-                <!-- Tarde -->
-                <option value="14:00">14:00</option>
-                <option value="14:30">14:30</option>
-                <option value="15:00">15:00</option>
-                <option value="15:30">15:30</option>
-                <option value="16:00">16:00</option>
-                <option value="16:30">16:30</option>
-                <option value="17:00">17:00</option>
-                <option value="17:30">17:30</option>
-                <option value="18:00">18:00</option>
-              </select>
-              <div class="invalid-feedback">Favor seleccionar una hora válida.</div>
-
-
-              <textarea id="sintomas" class="form-control" rows="3" placeholder="Describe los síntomas..."
-                required></textarea>
+    <div class="container-fluid">
+        <div class="main-container">
+            <!-- Header -->
+            <div class="header">
+                <h1><i class="fas fa-paw"></i>Pets</h1>
+                <p class="mb-0">Agendamiento de Citas para mascotas</p>
             </div>
 
-
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-primary" id="guardarCita">Guardar Cita</button>
+            <!-- Calendar -->
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <button class="btn btn-outline-primary btn-custom" onclick="previousMonth()">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <h2 id="currentMonth" class="mb-0"></h2>
+                        <button class="btn btn-outline-primary btn-custom" onclick="nextMonth()">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="calendar-grid">
+                    <div class="calendar-days-header">
+                        <div class="calendar-day-name">Dom</div>
+                        <div class="calendar-day-name">Lun</div>
+                        <div class="calendar-day-name">Mar</div>
+                        <div class="calendar-day-name">Mié</div>
+                        <div class="calendar-day-name">Jue</div>
+                        <div class="calendar-day-name">Vie</div>
+                        <div class="calendar-day-name">Sáb</div>
+                    </div>
+                    <div id="calendarDays" class="calendar-days">
+                        <!-- Los días se generarán dinámicamente -->
+                    </div>
+                </div>
             </div>
-          </form>
+
+            <!-- Search and Filter Section -->
+            <div class="search-filter-section">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <input type="text" class="form-control" id="searchInput" placeholder="🔍 Buscar por mascota o propietario...">
+                            </div>
+                            <div class="col-md-6">
+                                <select class="form-select" id="filterStatus">
+                                    <option value="">Todos los estados</option>
+                                    <option value="abierta">Abiertas</option>
+                                    <option value="terminada">Terminadas</option>
+                                    <option value="anulada">Anuladas</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#appointmentModal">
+                            <i class="fas fa-plus"></i> Nueva Cita
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Appointments Grid -->
+            <div id="appointmentsContainer" class="row">
+                <!-- Las citas se renderizarán aquí -->
+            </div>
+
+            <!-- No appointments message -->
+            <div id="noAppointments" class="no-appointments" style="display: none;">
+                <i class="fas fa-calendar-times" style="font-size: 4rem; color: #dee2e6; margin-bottom: 20px;"></i>
+                <h3>No hay citas registradas</h3>
+                <p>Comienza creando tu primera cita veterinaria</p>
+            </div>
         </div>
-      </div>
     </div>
 
-
-    <div class="citas-container">
-      <h2>Citas Agendadas</h2>
-      <div id="listaCitas" class="cartas-wrapper">
-      </div>
-    </div>
-
-
-
-    <!-- Modal para editar cita -->
-    <div class="modal fade" id="editar_cita" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <form id="formEditarCita">
-            <div class="modal-body">
-              <input type="hidden" id="editarID">
-              <input type="text" id="editarNombreDueño" class="form-control mb-2" placeholder="Nombre del propietario"
-                required>
-              <input type="text" id="editarNombreMascota" class="form-control mb-2" placeholder="Nombre de la mascota"
-                required>
-              <input type="text" id="editarTelefono" class="form-control mb-2" placeholder="Celular del propietario"
-                required pattern="^[0-9]{7,15}$" title="Solo números. Mínimo 7, máximo 15 dígitos.">
-              <input type="text" id="editarTipoMascota" class="form-control mb-2" placeholder="Tipo de mascota"
-                required>
-              <label for="editarFecha" class="form-label">Fecha:</label>
-              <input type="date" id="editarFecha" class="form-control mb-2" required>
-              <label for="editarHora" class="form-label">Hora:</label>
-              <select id="editarHora" class="form-select mb-2" required>
-                <option value="">-- Selecciona una hora --</option>
-                <option value="08:00">08:00</option>
-                <option value="08:30">08:30</option>
-                <option value="09:00">09:00</option>
-                <option value="09:30">09:30</option>
-                <option value="10:00">10:00</option>
-                <option value="10:30">10:30</option>
-                <option value="11:00">11:00</option>
-                <option value="11:30">11:30</option>
-                <option value="14:00">14:00</option>
-                <option value="14:30">14:30</option>
-                <option value="15:00">15:00</option>
-                <option value="15:30">15:30</option>
-                <option value="16:00">16:00</option>
-                <option value="16:30">16:30</option>
-                <option value="17:00">17:00</option>
-                <option value="17:30">17:30</option>
-                <option value="18:00">18:00</option>
-              </select>
-              <textarea id="editarSintomas" class="form-control mt-2" rows="3" placeholder="Describe los síntomas..."
-                required></textarea>
+    <!-- Modal para Acciones del Día -->
+    <div class="modal fade" id="dayActionsModal" tabindex="-1" aria-labelledby="dayActionsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="dayActionsModalLabel">
+                        <i class="fas fa-calendar-day"></i> <span id="selectedDateText"></span>
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="dayAppointments" class="mb-4">
+                        <!-- Las citas del día se mostrarán aquí -->
+                    </div>
+                    
+                    <div class="d-grid gap-3">
+                        <button class="btn btn-primary btn-custom" onclick="scheduleNewAppointment()">
+                            <i class="fas fa-plus"></i> Agendar Nueva Cita
+                        </button>
+                        
+                        <div id="dayActions" style="display: none;">
+                            <button class="btn btn-warning btn-custom mb-2 w-100" onclick="modifyDayAppointments()">
+                                <i class="fas fa-edit"></i> Modificar Citas del Día
+                            </button>
+                            <button class="btn btn-danger btn-custom w-100" onclick="cancelDayAppointments()">
+                                <i class="fas fa-times"></i> Cancelar Citas del Día
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-custom" data-bs-dismiss="modal">Cerrar</button>
+                </div>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-success">Guardar Cambios</button>
-            </div>
-          </form>
         </div>
-      </div>
     </div>
-  </div>
+    <div class="modal fade" id="appointmentModal" tabindex="-1" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="appointmentModalLabel">
+                        <i class="fas fa-plus-circle"></i> Nueva Cita
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="appointmentForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="petName" class="form-label">Nombre de la Mascota *</label>
+                                <input type="text" class="form-control" id="petName" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="ownerName" class="form-label">Nombre del Propietario *</label>
+                                <input type="text" class="form-control" id="ownerName" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="phone" class="form-label">Teléfono *</label>
+                                <input type="tel" class="form-control" id="phone" required pattern="[0-9]+">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="petType" class="form-label">Tipo de Mascota *</label>
+                                <select class="form-select" id="petType" required>
+                                    <option value="">Seleccionar...</option>
+                                    <option value="perro">🐕 Perro</option>
+                                    <option value="gato">🐱 Gato</option>
+                                    <option value="conejo">🐰 Conejo</option>
+                                    <option value="hamster">🐹 Hámster</option>
+                                    <option value="ave">🐦 Ave</option>
+                                    <option value="pez">🐠 Pez</option>
+                                    <option value="reptil">🦎 Reptil</option>
+                                    <option value="chinchilla">🐭 Chinchilla</option>
+                                    <option value="cobayo">🐹 Cobayo</option>
+                                    <option value="otro">🐾 Otro</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="appointmentDate" class="form-label">Fecha de la Cita *</label>
+                                <input type="date" class="form-control" id="appointmentDate" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="appointmentTime" class="form-label">Hora de la Cita *</label>
+                                <input type="time" class="form-control" id="appointmentTime" required min="08:00" max="20:00">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="symptoms" class="form-label">Síntomas *</label>
+                            <textarea class="form-control" id="symptoms" rows="3" maxlength="400" required placeholder="Describe los síntomas de la mascota..."></textarea>
+                            <div class="form-text">
+                                <span id="charCount">0</span>/400 caracteres
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Estado *</label>
+                            <select class="form-select" id="status" required>
+                                <option value="abierta">Abierta</option>
+                                <option value="terminada">Terminada</option>
+                                <option value="anulada">Anulada</option>
+                            </select>
+                        </div>
+                    </form>
+                    <div id="modalAlert" class="mt-3"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-custom" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary btn-custom" onclick="saveAppointment()">
+                        <i class="fas fa-save"></i> Guardar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Modal de Confirmación -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="confirmModalLabel">
+                        <i class="fas fa-exclamation-triangle"></i> Confirmar Eliminación
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Estás seguro de que deseas eliminar esta cita?</p>
+                    <p class="text-muted">Esta acción no se puede deshacer.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-custom" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger btn-custom" onclick="confirmDelete()">
+                        <i class="fas fa-trash"></i> Eliminar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-  <script>
-    const imagenesMascotas = {
-      "Perro": "img/perro.jpeg",
-      "Gato": "img/gato.jpg",
-      "Ave": "img/ave.jpg",
-      "Conejo": "img/conejo.jpg",
-      "Hámster": "img/hamster.jpg",
-      "Tortuga": "img/Tortuga.jpg",
-      "Pez": "img/pez_dorado.jpg",
-      "Hurón": "img/huron.jpg",
-      "Iguana": "img/iguana.jpg",
-      "Caballo": "img/caballo.jpg"
-    };
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let appointments = JSON.parse(localStorage.getItem('veterinaryAppointments')) || [];
+        let currentEditIndex = null;
+        let deleteIndex = null;
+        let appointmentCounter = parseInt(localStorage.getItem('appointmentCounter')) || 1;
+        let currentDate = new Date();
+        let selectedDate = null;
 
-    function generarIDUnico() {
-      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-      let id = '';
-      for (let i = 0; i < 8; i++) {
-        id += chars.charAt(Math.floor(Math.random() * chars.length));
-      }
-      return id;
-    }
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAppointments();
+            generateCalendar();
+            
+            // Event listeners
+            document.getElementById('searchInput').addEventListener('input', filterAppointments);
+            document.getElementById('filterStatus').addEventListener('change', filterAppointments);
+            document.getElementById('symptoms').addEventListener('input', updateCharCount);
+            
+            // Validar fecha mínima
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('appointmentDate').min = today;
+            
+            // Validar teléfono solo números
+            document.getElementById('phone').addEventListener('input', function(e) {
+                e.target.value = e.target.value.replace(/[^0-9]/g, '');
+            });
+        });
 
-    window.addEventListener('DOMContentLoaded', () => {
-      const hoy = new Date();
-      const yyyy = hoy.getFullYear();
-      const mm = String(hoy.getMonth() + 1).padStart(2, '0');
-      const dd = String(hoy.getDate()).padStart(2, '0');
-      const fechaMinima = `${yyyy}-${mm}-${dd}`;
-      document.getElementById('fechaCita').setAttribute('min', fechaMinima);
-
-      const citasGuardadas = JSON.parse(localStorage.getItem('citas')) || [];
-      citasGuardadas.forEach(cita => renderCita(cita));
-    });
-
-    const dropdownItems = document.querySelectorAll('#menuTipoMascota .dropdown-item');
-    const dropdownButton = document.getElementById('dropdownTipoMascota');
-    const inputTipoMascota = document.getElementById('tipoMascotaSeleccionada');
-
-    dropdownItems.forEach(item => {
-      item.addEventListener('click', function (e) {
-        e.preventDefault();
-        dropdownButton.textContent = this.textContent.trim();
-        inputTipoMascota.value = this.textContent.trim();
-
-        dropdownButton.classList.remove('is-invalid');
-        const feedback = dropdownButton.nextElementSibling;
-        if (feedback) feedback.style.display = 'none';
-      });
-    });
-
-    // Solo permitir números en los campos de teléfono
-    document.addEventListener('input', function (e) {
-      if (e.target.id === 'telefono' || e.target.id === 'editarTelefono') {
-        e.target.value = e.target.value.replace(/\D/g, '');
-      }
-    });
-
-    document.getElementById('guardarCita').addEventListener('click', function () {
-      const dueñoInput = document.getElementById('nombreDueño');
-      const mascotaInput = document.getElementById('nombreMascota');
-      const telefonoInput = document.getElementById('telefono');
-      const fechaInput = document.getElementById('fechaCita');
-      const horaInput = document.getElementById('horaCita');
-      const sintomasInput = document.getElementById('sintomas');
-      const tipo_mascota = inputTipoMascota.value.trim();
-
-
-
-      function validarCampo(input) {
-        if (!input.value.trim()) {
-          input.classList.add('is-invalid');
-          return false;
-        } else {
-          input.classList.remove('is-invalid');
-          return true;
+        function generateCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            
+            // Actualizar título del mes
+            const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                               'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+            document.getElementById('currentMonth').textContent = `${monthNames[month]} ${year}`;
+            
+            // Primer día del mes y último día
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const startDate = new Date(firstDay);
+            startDate.setDate(startDate.getDate() - firstDay.getDay());
+            
+            const calendarDays = document.getElementById('calendarDays');
+            calendarDays.innerHTML = '';
+            
+            // Generar 42 días (6 semanas)
+            for (let i = 0; i < 42; i++) {
+                const date = new Date(startDate);
+                date.setDate(startDate.getDate() + i);
+                
+                const dayElement = createDayElement(date, month);
+                calendarDays.appendChild(dayElement);
+            }
         }
-      }
 
-      let valido = true;
-      valido = validarCampo(dueñoInput) && valido;
-      valido = validarCampo(mascotaInput) && valido;
-      valido = validarCampo(telefonoInput) && valido;
-      valido = validarCampo(fechaInput) && valido;
-      valido = validarCampo(horaInput) && valido;
-      valido = validarCampo(sintomasInput) && valido;
-
-      const feedback = dropdownButton.nextElementSibling;
-      if (!tipo_mascota) {
-        dropdownButton.classList.add('is-invalid');
-        if (feedback) feedback.style.display = 'block';
-        valido = false;
-      } else {
-        dropdownButton.classList.remove('is-invalid');
-        if (feedback) feedback.style.display = 'none';
-      }
-
-      if (!valido) return;
-
-      const hoy = new Date();
-      const fechaSeleccionada = new Date(fechaInput.value);
-      hoy.setHours(0, 0, 0, 0);
-      fechaSeleccionada.setHours(0, 0, 0, 0);
-
-      if (fechaSeleccionada < hoy) {
-        alert("La fecha debe ser igual o posterior a hoy.");
-        return;
-      }
-
-      const idCita = generarIDUnico();
-
-      const nuevaCita = {
-        id: idCita,
-        dueño: dueñoInput.value.trim(),
-        mascota: mascotaInput.value.trim(),
-        telefono: telefonoInput.value.trim(),
-        fecha: fechaInput.value,
-        hora: horaInput.value,
-        tipo_mascota,
-        sintomas: sintomasInput.value.trim()
-      };
-
-      let citas = JSON.parse(localStorage.getItem('citas')) || [];
-      citas.push(nuevaCita);
-      localStorage.setItem('citas', JSON.stringify(citas));
-
-      renderCita(nuevaCita);
-
-      document.getElementById('formCita').reset();
-      dropdownButton.textContent = 'Tipo de mascota';
-      inputTipoMascota.value = '';
-      dropdownButton.classList.remove('is-invalid');
-      if (feedback) feedback.style.display = 'none';
-
-      const modal = bootstrap.Modal.getInstance(document.getElementById('agendar_cita'));
-      modal.hide();
-    });
-
-    function renderCita(cita) {
-      const lista = document.getElementById('listaCitas');
-      const card = document.createElement('div');
-      card.className = 'col';
-      card.setAttribute('data-id', cita.id);
-
-      card.innerHTML = `
-      <div class="card" style="width: 18rem;">
-        <h5 class="card-title d-flex justify-content-center">${cita.mascota}</h5>
-        <img src="${imagenesMascotas[cita.tipo_mascota] || 'img/default.jpg'}" class="card-img-top" alt="${cita.tipo_mascota}">
-        <div class="card-body">
-          <p class="card-text"><strong>Propietario:</strong> ${cita.dueño}</p>
-          <p class="card-text"><strong>Teléfono:</strong> ${cita.telefono}</p>
-          <p class="card-text"><strong>Tipo:</strong> ${cita.tipo_mascota}</p>
-          <p class="card-text"><strong>Fecha:</strong> ${cita.fecha}</p>
-          <p class="card-text"><strong>Hora:</strong> ${cita.hora}</p>
-          <p class="card-text"><strong>Síntomas:</strong> ${cita.sintomas}</p>
-          <p class="card-text d-flex justify-content-center"><strong>ID Cita:</strong> ${cita.id}</p>
-          <div class="d-flex justify-content-between">
-            <button class="btn btn-warning btn-sm editar-cita">Editar</button>
-            <button class="btn btn-danger btn-sm eliminar-cita">Eliminar</button>
-          </div>
-        </div>
-      </div>
-    `;
-
-      card.querySelector('.eliminar-cita').addEventListener('click', function () {
-        if (confirm("¿Eliminar esta cita?")) {
-          card.remove();
-          let citas = JSON.parse(localStorage.getItem('citas')) || [];
-          citas = citas.filter(c => c.id !== cita.id);
-          localStorage.setItem('citas', JSON.stringify(citas));
+        function createDayElement(date, currentMonth) {
+            const day = document.createElement('div');
+            day.className = 'calendar-day';
+            
+            const today = new Date();
+            const isToday = date.toDateString() === today.toDateString();
+            const isCurrentMonth = date.getMonth() === currentMonth;
+            
+            if (!isCurrentMonth) {
+                day.classList.add('other-month');
+            }
+            
+            if (isToday) {
+                day.classList.add('today');
+            }
+            
+            // Obtener citas para este día
+            const dateString = date.toISOString().split('T')[0];
+            const dayAppointments = appointments.filter(apt => apt.appointmentDate === dateString);
+            
+            day.innerHTML = `
+                <div class="day-number">${date.getDate()}</div>
+                <div class="day-appointments">
+                    ${dayAppointments.length > 0 ? `
+                        <div class="appointment-count">${dayAppointments.length} cita${dayAppointments.length > 1 ? 's' : ''}</div>
+                        <div class="mt-1">
+                            ${dayAppointments.slice(0, 3).map(apt => 
+                                `<span class="appointment-dot ${apt.status}"></span>`
+                            ).join('')}
+                            ${dayAppointments.length > 3 ? '<span class="appointment-dot" style="background-color: #6c757d;"></span>' : ''}
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+            
+            day.addEventListener('click', () => {
+                selectedDate = dateString;
+                showDayActions(date, dayAppointments);
+            });
+            
+            return day;
         }
-      });
 
-      lista.appendChild(card);
-    }
+        function showDayActions(date, dayAppointments) {
+            const modal = new bootstrap.Modal(document.getElementById('dayActionsModal'));
+            const dateText = date.toLocaleDateString('es-ES', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            document.getElementById('selectedDateText').textContent = dateText;
+            
+            // Mostrar citas del día
+            const dayAppointmentsContainer = document.getElementById('dayAppointments');
+            if (dayAppointments.length > 0) {
+                dayAppointmentsContainer.innerHTML = `
+                    <h6>Citas programadas:</h6>
+                    ${dayAppointments.map(apt => `
+                        <div class="border-start border-3 border-${apt.status === 'abierta' ? 'success' : apt.status === 'terminada' ? 'primary' : 'danger'} ps-3 mb-2">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <strong>${getPetIcon(apt.petType)} ${apt.petName}</strong>
+                                    <br>
+                                    <small class="text-muted">${apt.ownerName} - ${formatTime(apt.appointmentTime)}</small>
+                                </div>
+                                <span class="badge badge-${apt.status}">${apt.status}</span>
+                            </div>
+                        </div>
+                    `).join('')}
+                `;
+                document.getElementById('dayActions').style.display = 'block';
+            } else {
+                dayAppointmentsContainer.innerHTML = '<p class="text-muted">No hay citas programadas para este día.</p>';
+                document.getElementById('dayActions').style.display = 'none';
+            }
+            
+            modal.show();
+        }
 
-    // Abrir modal de edición con datos precargados
-    document.addEventListener('click', function (e) {
-      if (e.target.classList.contains('editar-cita')) {
-        const card = e.target.closest('.col');
-        const id = card.getAttribute('data-id');
-        const citas = JSON.parse(localStorage.getItem('citas')) || [];
-        const cita = citas.find(c => c.id === id);
-        if (!cita) return;
+        function scheduleNewAppointment() {
+            // Cerrar modal de acciones del día
+            const dayModal = bootstrap.Modal.getInstance(document.getElementById('dayActionsModal'));
+            dayModal.hide();
+            
+            // Abrir modal de nueva cita con la fecha preseleccionada
+            setTimeout(() => {
+                document.getElementById('appointmentDate').value = selectedDate;
+                const appointmentModal = new bootstrap.Modal(document.getElementById('appointmentModal'));
+                appointmentModal.show();
+            }, 300);
+        }
 
-        document.getElementById('editarID').value = cita.id;
-        document.getElementById('editarNombreDueño').value = cita.dueño;
-        document.getElementById('editarNombreMascota').value = cita.mascota;
-        document.getElementById('editarTelefono').value = cita.telefono;
-        document.getElementById('editarTipoMascota').value = cita.tipo_mascota;
-        document.getElementById('editarFecha').value = cita.fecha;
-        document.getElementById('editarHora').value = cita.hora;
-        document.getElementById('editarSintomas').value = cita.sintomas;
+        function modifyDayAppointments() {
+            const dayAppointments = appointments.filter(apt => apt.appointmentDate === selectedDate);
+            if (dayAppointments.length === 0) return;
+            
+            // Cerrar modal de acciones del día
+            const dayModal = bootstrap.Modal.getInstance(document.getElementById('dayActionsModal'));
+            dayModal.hide();
+            
+            // Si solo hay una cita, editarla directamente
+            if (dayAppointments.length === 1) {
+                setTimeout(() => {
+                    const index = appointments.findIndex(apt => apt.id === dayAppointments[0].id);
+                    editAppointment(index);
+                }, 300);
+            } else {
+                // Si hay múltiples citas, mostrar lista para seleccionar
+                setTimeout(() => {
+                    showAppointmentsList(dayAppointments, 'edit');
+                }, 300);
+            }
+        }
 
-        const modalEditar = new bootstrap.Modal(document.getElementById('editar_cita'));
-        modalEditar.show();
-      }
-    });
+        function cancelDayAppointments() {
+            const dayAppointments = appointments.filter(apt => apt.appointmentDate === selectedDate);
+            if (dayAppointments.length === 0) return;
+            
+            if (confirm(`¿Estás seguro de que deseas cancelar todas las ${dayAppointments.length} citas de este día?`)) {
+                dayAppointments.forEach(apt => {
+                    const index = appointments.findIndex(a => a.id === apt.id);
+                    if (index !== -1) {
+                        appointments[index].status = 'anulada';
+                    }
+                });
+                
+                localStorage.setItem('veterinaryAppointments', JSON.stringify(appointments));
+                loadAppointments();
+                generateCalendar();
+                
+                const dayModal = bootstrap.Modal.getInstance(document.getElementById('dayActionsModal'));
+                dayModal.hide();
+            }
+        }
 
-    // Guardar edición de cita
-    document.getElementById('formEditarCita').addEventListener('submit', function (e) {
-      e.preventDefault();
+        function showAppointmentsList(dayAppointments, action) {
+            // Crear modal dinámico para mostrar lista de citas
+            const modalHtml = `
+                <div class="modal fade" id="appointmentsListModal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">
+                                    <i class="fas fa-list"></i> Seleccionar Cita para ${action === 'edit' ? 'Editar' : 'Eliminar'}
+                                </h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                ${dayAppointments.map(apt => `
+                                    <div class="border rounded p-3 mb-2" style="cursor: pointer;" onclick="selectAppointmentForAction('${apt.id}', '${action}')">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <strong>${getPetIcon(apt.petType)} ${apt.petName}</strong>
+                                                <br>
+                                                <small class="text-muted">${apt.ownerName} - ${formatTime(apt.appointmentTime)}</small>
+                                            </div>
+                                            <span class="badge badge-${apt.status}">${apt.status}</span>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Remover modal anterior si existe
+            const existingModal = document.getElementById('appointmentsListModal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+            
+            // Agregar nuevo modal
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+            const modal = new bootstrap.Modal(document.getElementById('appointmentsListModal'));
+            modal.show();
+        }
 
-      const id = document.getElementById('editarID').value;
-      const citas = JSON.parse(localStorage.getItem('citas')) || [];
-      const index = citas.findIndex(c => c.id === id);
-      if (index === -1) return;
+        function selectAppointmentForAction(appointmentId, action) {
+            const index = appointments.findIndex(apt => apt.id == appointmentId);
+            
+            // Cerrar modal de lista
+            const listModal = bootstrap.Modal.getInstance(document.getElementById('appointmentsListModal'));
+            listModal.hide();
+            
+            setTimeout(() => {
+                if (action === 'edit') {
+                    editAppointment(index);
+                } else if (action === 'delete') {
+                    deleteAppointment(index);
+                }
+            }, 300);
+        }
 
-      citas[index] = {
-        id,
-        dueño: document.getElementById('editarNombreDueño').value.trim(),
-        mascota: document.getElementById('editarNombreMascota').value.trim(),
-        telefono: document.getElementById('editarTelefono').value.trim(),
-        tipo_mascota: document.getElementById('editarTipoMascota').value.trim(),
-        fecha: document.getElementById('editarFecha').value,
-        hora: document.getElementById('editarHora').value,
-        sintomas: document.getElementById('editarSintomas').value.trim()
-      };
+        function previousMonth() {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            generateCalendar();
+        }
 
-      localStorage.setItem('citas', JSON.stringify(citas));
+        function nextMonth() {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            generateCalendar();
+        }
 
-      document.getElementById('listaCitas').innerHTML = "";
-      citas.forEach(renderCita);
+        function updateCharCount() {
+            const textarea = document.getElementById('symptoms');
+            const charCount = document.getElementById('charCount');
+            charCount.textContent = textarea.value.length;
+            
+            if (textarea.value.length > 350) {
+                charCount.style.color = '#dc3545';
+            } else {
+                charCount.style.color = '#6c757d';
+            }
+        }
 
-      const modal = bootstrap.Modal.getInstance(document.getElementById('editar_cita'));
-      modal.hide();
-    });
-  </script>
+        function showAlert(message, type = 'danger') {
+            const alertDiv = document.getElementById('modalAlert');
+            alertDiv.innerHTML = `
+                <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            `;
+        }
 
+        function validateForm() {
+            const petName = document.getElementById('petName').value.trim();
+            const ownerName = document.getElementById('ownerName').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const petType = document.getElementById('petType').value;
+            const appointmentDate = document.getElementById('appointmentDate').value;
+            const appointmentTime = document.getElementById('appointmentTime').value;
+            const symptoms = document.getElementById('symptoms').value.trim();
 
+            if (!petName) {
+                showAlert('El nombre de la mascota es obligatorio');
+                return false;
+            }
+            if (!ownerName) {
+                showAlert('El nombre del propietario es obligatorio');
+                return false;
+            }
+            if (!phone) {
+                showAlert('El teléfono es obligatorio');
+                return false;
+            }
+            if (!/^[0-9]+$/.test(phone)) {
+                showAlert('El teléfono debe contener solo números');
+                return false;
+            }
+            if (!petType) {
+                showAlert('Debes seleccionar el tipo de mascota');
+                return false;
+            }
+            if (!appointmentDate) {
+                showAlert('La fecha de la cita es obligatoria');
+                return false;
+            }
+            if (new Date(appointmentDate) < new Date()) {
+                showAlert('La fecha de la cita debe ser mayor a la fecha actual');
+                return false;
+            }
+            if (!appointmentTime) {
+                showAlert('La hora de la cita es obligatoria');
+                return false;
+            }
+            
+            const [hours] = appointmentTime.split(':').map(Number);
+            if (hours < 8 || hours >= 20) {
+                showAlert('El horario de atención es de 8:00 AM a 8:00 PM');
+                return false;
+            }
+            
+            if (!symptoms) {
+                showAlert('Los síntomas son obligatorios');
+                return false;
+            }
+            if (symptoms.length > 400) {
+                showAlert('Los síntomas no pueden exceder 400 caracteres');
+                return false;
+            }
 
+            return true;
+        }
 
+        function saveAppointment() {
+            if (!validateForm()) return;
 
+            const appointmentData = {
+                id: currentEditIndex !== null ? appointments[currentEditIndex].id : appointmentCounter++,
+                petName: document.getElementById('petName').value.trim(),
+                ownerName: document.getElementById('ownerName').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                petType: document.getElementById('petType').value,
+                appointmentDate: document.getElementById('appointmentDate').value,
+                appointmentTime: document.getElementById('appointmentTime').value,
+                symptoms: document.getElementById('symptoms').value.trim(),
+                status: document.getElementById('status').value,
+                createdAt: currentEditIndex !== null ? appointments[currentEditIndex].createdAt : new Date().toISOString()
+            };
+
+            if (currentEditIndex !== null) {
+                appointments[currentEditIndex] = appointmentData;
+                currentEditIndex = null;
+                showAlert('Cita actualizada correctamente', 'success');
+            } else {
+                appointments.push(appointmentData);
+                showAlert('Cita guardada correctamente', 'success');
+            }
+
+            localStorage.setItem('veterinaryAppointments', JSON.stringify(appointments));
+            localStorage.setItem('appointmentCounter', appointmentCounter.toString());
+            
+            setTimeout(() => {
+                const modal = bootstrap.Modal.getInstance(document.getElementById('appointmentModal'));
+                modal.hide();
+                loadAppointments();
+                generateCalendar();
+                clearForm();
+            }, 1500);
+        }
+
+        function editAppointment(index) {
+            const appointment = appointments[index];
+            currentEditIndex = index;
+
+            document.getElementById('petName').value = appointment.petName;
+            document.getElementById('ownerName').value = appointment.ownerName;
+            document.getElementById('phone').value = appointment.phone;
+            document.getElementById('petType').value = appointment.petType;
+            document.getElementById('appointmentDate').value = appointment.appointmentDate;
+            document.getElementById('appointmentTime').value = appointment.appointmentTime;
+            document.getElementById('symptoms').value = appointment.symptoms;
+            document.getElementById('status').value = appointment.status;
+
+            document.getElementById('appointmentModalLabel').innerHTML = '<i class="fas fa-edit"></i> Editar Cita';
+            updateCharCount();
+
+            const modal = new bootstrap.Modal(document.getElementById('appointmentModal'));
+            modal.show();
+        }
+
+        function deleteAppointment(index) {
+            deleteIndex = index;
+            const modal = new bootstrap.Modal(document.getElementById('confirmModal'));
+            modal.show();
+        }
+
+        function confirmDelete() {
+            if (deleteIndex !== null) {
+                appointments.splice(deleteIndex, 1);
+                localStorage.setItem('veterinaryAppointments', JSON.stringify(appointments));
+                loadAppointments();
+                generateCalendar();
+                deleteIndex = null;
+                
+                const modal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
+                modal.hide();
+            }
+        }
+
+        function clearForm() {
+            document.getElementById('appointmentForm').reset();
+            document.getElementById('modalAlert').innerHTML = '';
+            document.getElementById('appointmentModalLabel').innerHTML = '<i class="fas fa-plus-circle"></i> Nueva Cita';
+            document.getElementById('charCount').textContent = '0';
+            document.getElementById('charCount').style.color = '#6c757d';
+            currentEditIndex = null;
+        }
+
+        function loadAppointments() {
+            const container = document.getElementById('appointmentsContainer');
+            const noAppointments = document.getElementById('noAppointments');
+            
+            // Ordenar por fecha y hora
+            const sortedAppointments = [...appointments].sort((a, b) => {
+                const dateA = new Date(a.appointmentDate + 'T' + a.appointmentTime);
+                const dateB = new Date(b.appointmentDate + 'T' + b.appointmentTime);
+                return dateA - dateB;
+            });
+
+            if (sortedAppointments.length === 0) {
+                container.innerHTML = '';
+                noAppointments.style.display = 'block';
+                return;
+            }
+
+            noAppointments.style.display = 'none';
+            container.innerHTML = sortedAppointments.map((appointment, index) => `
+                <div class="col-md-6 col-lg-4">
+                    <div class="appointment-card ${appointment.status}" data-search="${appointment.petName.toLowerCase()} ${appointment.ownerName.toLowerCase()}" data-status="${appointment.status}">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h5 class="mb-0">
+                                ${getPetIcon(appointment.petType)} ${appointment.petName}
+                            </h5>
+                            <span class="badge badge-status badge-${appointment.status}">
+                                ${appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}
+                            </span>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <p class="mb-1"><strong>Propietario:</strong> ${appointment.ownerName}</p>
+                            <p class="mb-1"><strong>Teléfono:</strong> ${appointment.phone}</p>
+                            <p class="mb-1"><strong>Tipo:</strong> ${appointment.petType}</p>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="appointment-time">
+                                <i class="fas fa-calendar-alt"></i> ${formatDate(appointment.appointmentDate)}
+                                <br>
+                                <i class="fas fa-clock"></i> ${formatTime(appointment.appointmentTime)}
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <strong>Síntomas:</strong>
+                            <p class="text-muted mb-0">${appointment.symptoms}</p>
+                        </div>
+                        
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-outline-primary btn-sm btn-custom flex-fill" onclick="editAppointment(${appointments.indexOf(appointment)})">
+                                <i class="fas fa-edit"></i> Editar
+                            </button>
+                            <button class="btn btn-outline-danger btn-sm btn-custom flex-fill" onclick="deleteAppointment(${appointments.indexOf(appointment)})">
+                                <i class="fas fa-trash"></i> Eliminar
+                            </button>
+                        </div>
+                        
+                        <div class="mt-2">
+                            <small class="text-muted">
+                                <i class="fas fa-hashtag"></i> Cita #${appointment.id}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterAppointments() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('filterStatus').value;
+            const cards = document.querySelectorAll('.appointment-card');
+
+            cards.forEach(card => {
+                const searchData = card.getAttribute('data-search');
+                const cardStatus = card.getAttribute('data-status');
+                
+                const matchesSearch = searchData.includes(searchTerm);
+                const matchesStatus = !statusFilter || cardStatus === statusFilter;
+                
+                if (matchesSearch && matchesStatus) {
+                    card.parentElement.style.display = 'block';
+                } else {
+                    card.parentElement.style.display = 'none';
+                }
+            });
+        }
+
+        function updateStats() {
+            const total = appointments.length;
+            const abierta = appointments.filter(a => a.status === 'abierta').length;
+            const terminada = appointments.filter(a => a.status === 'terminada').length;
+            const anulada = appointments.filter(a => a.status === 'anulada').length;
+
+            // Actualizar estadísticas si existen los elementos
+            const totalElement = document.getElementById('totalCitas');
+            const abiertaElement = document.getElementById('citasAbiertas');
+            const terminadaElement = document.getElementById('citasTerminadas');
+            const anuladaElement = document.getElementById('citasAnuladas');
+
+            if (totalElement) totalElement.textContent = total;
+            if (abiertaElement) abiertaElement.textContent = abierta;
+            if (terminadaElement) terminadaElement.textContent = terminada;
+            if (anuladaElement) anuladaElement.textContent = anulada;
+        }
+
+        function getPetIcon(petType) {
+            const icons = {
+                'perro': '🐕',
+                'gato': '🐱',
+                'conejo': '🐰',
+                'hamster': '🐹',
+                'ave': '🐦',
+                'pez': '🐠',
+                'reptil': '🦎',
+                'chinchilla': '🐭',
+                'cobayo': '🐹',
+                'otro': '🐾'
+            };
+            return icons[petType] || '🐾';
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('es-ES', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        function formatTime(timeString) {
+            const [hours, minutes] = timeString.split(':');
+            const hour = parseInt(hours);
+            const ampm = hour >= 12 ? 'PM' : 'AM';
+            const hour12 = hour % 12 || 12;
+            return `${hour12}:${minutes} ${ampm}`;
+        }
+
+        // Limpiar formulario al cerrar modal
+        document.getElementById('appointmentModal').addEventListener('hidden.bs.modal', function () {
+            clearForm();
+        });
+    </script>
 </body>
-
 </html>
